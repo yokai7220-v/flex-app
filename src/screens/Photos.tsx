@@ -2,6 +2,8 @@ import { useRef, useState } from 'react'
 import { IconPlus } from '../components/Icons'
 import { PhotoForm, type PhotoMeta } from '../components/PhotoForm'
 import { Seg, Sheet } from '../components/ui'
+import { VideoList } from '../components/VideoList'
+import { testRoutine } from '../data/program'
 import { POSES, uid, type Photo } from '../db'
 import { shortDate } from '../lib/date'
 import { compressPhoto, useObjectURL } from '../lib/image'
@@ -106,6 +108,11 @@ export function PhotosView() {
           <PhotoGrid photos={shown} onPick={(p) => go({ tab: 'progress', sub: 'photos', photo: p.id })} />
         </>
       )}
+
+      <div className="section-title">Замер</div>
+      <div className="card" style={{ paddingTop: 8, paddingBottom: 8 }}>
+        <VideoList videos={testRoutine.videos} />
+      </div>
 
       {file && (
         <Sheet title="Новое фото" onClose={() => !saving && setFile(null)}>

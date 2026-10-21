@@ -6,7 +6,7 @@ export type Route = {
   tab: Tab
   routine?: string
   level?: string
-  sub?: 'stats' | 'photos' | 'measure'
+  sub?: 'calendar' | 'photos'
   photo?: string
   compare?: boolean
 }

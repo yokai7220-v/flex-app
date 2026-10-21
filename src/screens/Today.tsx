@@ -69,7 +69,7 @@ export function TodayScreen() {
 
       <div style={{ marginTop: 24 }}>
         {measureDue && (
-          <div className="banner info" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'progress', sub: 'measure' })}>
+          <div className="banner info" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'progress', sub: 'photos' })}>
             {measured ? `Последний замер ${human(measured)}. Пора замериться и сделать фото →` : 'Сделай первый замер и фото, чтобы было с чем сравнивать →'}
           </div>
         )}

@@ -9,15 +9,15 @@ export function stepsFor(r: Routine, heavyMode: 'between' | 'after'): Step[] {
   return [WARMUP_STEP, ...r.steps]
 }
 
-export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
+export function RoutineDetail({ id }: { id: string }) {
   const { settings } = useStore()
   const r = findRoutine(id)
   if (!r) return <div className="screen"><Top title="Не найдено" back /></div>
   const steps = stepsFor(r, settings.heavyMode)
 
   return (
-    <div className={embed ? undefined : 'screen'}>
-      {!embed && <Top title={r.title} back />}
+    <div className="screen">
+      <Top title={r.title} back />
 
       {r.kind === 'heavy' && settings.heavyMode === 'after' && (
         <p className="note">Делай сразу после силовой, пока разогрет, без отдельной разминки. Не перед силовой.</p>
