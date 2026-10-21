@@ -14,6 +14,7 @@ export function RoutineDetail({ id }: { id: string }) {
   const r = findRoutine(id)
   if (!r) return <div className="screen"><Top title="Не найдено" back /></div>
   const steps = stepsFor(r, settings.heavyMode)
+  const inVideo = r.steps === r.videos[0]?.steps
 
   return (
     <div className="screen">
@@ -29,18 +30,26 @@ export function RoutineDetail({ id }: { id: string }) {
         <VideoList videos={r.videos} />
       </div>
 
-      <div className="section-title">Упражнения</div>
-      <div className="card" style={{ paddingTop: 6, paddingBottom: 6 }}>
-        <ol className="steps">
-          {steps.map((s, i) => (
-            <li key={i}>
-              <div className="wrap">{s.name}</div>
-              {s.dose && <div className="dose">{s.dose}</div>}
-              {s.note && <div className="small muted">{s.note}</div>}
-            </li>
-          ))}
-        </ol>
-      </div>
+      {inVideo ? (
+        steps.length > r.steps.length && (
+          <p className="note">{steps[0].name}: {steps[0].dose}</p>
+        )
+      ) : (
+        <>
+          <div className="section-title">Упражнения</div>
+          <div className="card" style={{ paddingTop: 6, paddingBottom: 6 }}>
+            <ol className="steps">
+              {steps.map((s, i) => (
+                <li key={i}>
+                  <div className="wrap">{s.name}</div>
+                  {s.dose && <div className="dose">{s.dose}</div>}
+                  {s.note && <div className="small muted">{s.note}</div>}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </>
+      )}
 
       {r.notes && r.notes.length > 0 && (
         <div className="note stack">
