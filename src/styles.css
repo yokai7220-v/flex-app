@@ -158,15 +158,6 @@ a { color: var(--accent); }
 .seg.switch { gap: 2px; margin: 0 0 12px; padding: 3px; border-radius: 12px; background: var(--line); overflow: visible; }
 .seg.switch button { flex: 1; background: none; border-radius: 9px; padding: 7px 10px; }
 .seg.switch button.on { background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
-.seg button .dot {
-  position: absolute;
-  top: 5px;
-  right: 6px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-}
 
 .banner {
   border-radius: var(--radius);

@@ -22,7 +22,7 @@ export function ProgramScreen() {
       <Seg
         value={sel}
         onChange={(level) => replace({ tab: 'program', level })}
-        options={levels.map((l) => ({ id: l.id, label: l.short, dot: l.id === settings.currentLevel, done: levelDone(l, settings) }))}
+        options={levels.map((l) => ({ id: l.id, label: l.short, done: levelDone(l, settings) }))}
       />
       <LevelView level={levels.find((l) => l.id === sel)!} />
     </div>
