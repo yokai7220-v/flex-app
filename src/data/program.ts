@@ -1,0 +1,505 @@
+export type Video = { id: string; title: string; year: number; note?: string }
+
+export type Step = { name: string; dose?: string; note?: string }
+
+export type RoutineKind = 'light' | 'heavy' | 'support' | 'test'
+
+export type Routine = {
+  id: string
+  kind: RoutineKind
+  slot?: 'A' | 'B' | 'C'
+  title: string
+  freq: string
+  duration: string
+  intro?: string
+  steps: Step[]
+  notes?: string[]
+  videos: Video[]
+}
+
+export type Level = {
+  id: string
+  num: number
+  short: string
+  title: string
+  months: string
+  goal: string
+  heavyPerWeek: number
+  rotation: ('A' | 'B' | 'C')[]
+  criteria: { id: string; text: string }[]
+  routines: Routine[]
+}
+
+export type TheorySection = { title: string; body: string[]; videos?: Video[] }
+
+const V = {
+  testsNew: { id: 'WnUIDCoChP4', title: 'Can You Pass These 3 Flexibility Tests?', year: 2026 },
+  levels: { id: '58nxC7SVIto', title: 'How Flexible Are You?! | Flexibility Levels', year: 2022 },
+  beginnerV6: { id: 'XTZT56uav84', title: '17 Minute Beginner Stretch Routine V6', year: 2025 },
+  beginnerV5: { id: 'DCdKTMlatYw', title: '20 Minute Beginner Stretch Routine V5', year: 2024 },
+  morning: { id: '0VrLgzwTmTg', title: '10 Minute Morning Mobility Routine', year: 2025 },
+  hamLoaded: { id: 'Z9diEcFCFME', title: 'Beginner Hamstring Flexibility Routine', year: 2018, note: 'Протокол с весом, по нему расписаны шаги' },
+  hamBig5: { id: 'u4Yx0Y_voQE', title: 'Discover Your Hamstring Flexibility! #BIG5FLEX', year: 2023, note: 'Follow-along вариант' },
+  hamUnlock: { id: 'Qp3Vl7b_y6o', title: 'Unlock Your Hamstrings!', year: 2023, note: 'Короткий вариант, 10 мин' },
+  jefferson: { id: 'y_APeWo643w', title: 'Jefferson Curl | Do It Right!', year: 2019, note: 'Техника' },
+  squat: { id: 'AGymH_bI-WI', title: '15 Minute Squat Mobility Routine', year: 2026 },
+  shoulderQuick: { id: 'TNU6umd0sNA', title: 'Quick Shoulder Mobility Routine', year: 2023 },
+  shoulderV2: { id: 'p-LoBIu_axg', title: '25 Minute Shoulder Flexibility Routine V2', year: 2021 },
+  fullV6: { id: 'Zy43l8Gd4IM', title: '30 Minute Full Body Flexibility Routine V6', year: 2026 },
+  daily7: { id: 'gsZFsdOD08A', title: 'Dynamic "Daily 7" Flexibility Routine', year: 2023 },
+  frontV2: { id: 'GVwqobC6pBc', title: '30 Minute Front Split Flexibility Routine V2', year: 2021, note: 'По нему расписаны шаги' },
+  frontBig5: { id: 'LO0zKjr-R6Q', title: 'Unlock Your Front Split Flexibility! #BIG5FLEX', year: 2023 },
+  hipFlexors: { id: 'kI4Jv1C-JK0', title: 'Unlock Your Hip Flexors!', year: 2023 },
+  bridgeBig5: { id: 'xTZ5WDmGtbo', title: 'Open Your Shoulders For Bridge! #BIG5FLEX', year: 2023 },
+  bridgeTut: { id: 'U-cBuYnVJBI', title: 'Bridge Tutorial (In Depth)', year: 2016, note: 'Прогрессии моста' },
+  pancakeBig5: { id: 'PaVKDJDABM8', title: 'Discover Your Pancake Potential! #BIG5FLEX', year: 2023 },
+  pancakeV2: { id: 'c6phS041zwU', title: '25 Minute Pancake Flexibility Routine V2', year: 2021 },
+  middleBig5: { id: 'GSwx0yGxtPk', title: 'Begin Your Middle Split Journey! #BIG5FLEX', year: 2023 },
+  weighted: { id: 'tB2JeXlWf58', title: '30 Minute Weighted Flexibility Routine', year: 2022 },
+  middleLoaded: { id: 'OprCe6oi8sU', title: 'Middle Split Loaded Mobility Routine', year: 2016, note: 'Протокол с весом, по нему расписаны шаги' },
+  middleV2: { id: 'mCwcedlqt6Q', title: '30 Minute Middle Split Flexibility Routine V2', year: 2021 },
+  middlePnf: { id: 'O9jtFCH58nE', title: '3 Best PNF Exercises For Middle Splits', year: 2017 },
+  big5: { id: 'DJfjSLVdUMo', title: '"Big 5" Active Flexibility Routine', year: 2023 },
+  howOften: { id: 'lWF_H1cb2LA', title: 'How Often Should You Stretch?!', year: 2018 },
+  howLong: { id: '3lYx8LOvXHQ', title: 'How Long Does Mobility Take?! (My Journey)', year: 2017 },
+  bendy5: { id: 'I5mBCiDCwt0', title: 'The Bendy "Big 5"', year: 2022 },
+  notWorking: { id: 'uhKoW-K-KX8', title: "The Real Reason Stretching Isn't Working For You", year: 2026 },
+} satisfies Record<string, Video>
+
+const warmupBetween: Step = {
+  name: 'Разминка 5–10 мин — сегодня без силовой, мышцы холодные',
+  dose: 'махи ногами и руками, присед ↔ наклон ×10, вращения тазом',
+}
+
+export const WARMUP_STEP = warmupBetween
+
+const intensity = 'Интенсивность — «тянет сильно, но терпимо», примерно 7/10. Дыхание ровное. Острая боль, прострел, онемение — стоп.'
+
+export const testRoutine: Routine = {
+  id: 'test',
+  kind: 'test',
+  title: 'Замер прогресса',
+  freq: 'раз в 4 недели',
+  duration: '15 мин',
+  intro: 'Замеряйся дважды: сразу «холодным» и после разминки — это два разных показателя. Холодный отстаёт на месяцы, это нормально. Фото добавляй во вкладке «Прогресс».',
+  steps: [
+    { name: 'Наклон вперёд, ноги прямые (pike)', dose: 'кончики пальцев / кулаки / ладони к полу', note: 'Спина может округляться' },
+    { name: 'Глубокий присед', dose: 'отрываются ли пятки, можно ли сидеть расслабленно' },
+    { name: '«Ангел» у стены (wall angel)', dose: 'держится ли контакт поясницы и рук со стеной' },
+    { name: 'Продольный шпагат или выпад с коленом на полу', dose: 'фото сбоку, обе ноги' },
+    { name: 'Поперечный шпагат / разножка стоя', dose: 'фото спереди' },
+    { name: 'Pancake сидя (складка ноги врозь)', dose: 'фото сбоку' },
+    { name: 'Мост или его текущая прогрессия', dose: 'фото сбоку' },
+  ],
+  notes: ['Снимай с одной точки, в одинаковой одежде и освещении — тогда сравнение фото честное.'],
+  videos: [V.testsNew, V.levels],
+}
+
+export const levels: Level[] = [
+  {
+    id: 'l1',
+    num: 1,
+    short: 'База',
+    title: 'База',
+    months: 'месяцы 1–3',
+    goal: 'Пройти 3 базовых теста Меррика и научиться терпеть ощущение растяжки. Освоить PNF и работу с весом.',
+    heavyPerWeek: 3,
+    rotation: ['A', 'B', 'A'],
+    criteria: [
+      { id: 'l1-squat', text: 'Глубокий присед: пятки на полу, сидишь расслабленно' },
+      { id: 'l1-pike', text: 'Наклон: ладони на полу, ноги прямые' },
+      { id: 'l1-angel', text: '«Ангел» у стены: поясница и руки не отрываются' },
+    ],
+    routines: [
+      {
+        id: 'l1-light',
+        kind: 'light',
+        title: 'Лёгкая ежедневная',
+        freq: 'каждый день',
+        duration: '15–20 мин',
+        intro: 'Это «смазка» (grease the groove): держит тело в диапазоне. Без фанатизма — утром, вечером или после силовой.',
+        steps: [
+          { name: 'Скрутки стоя, руки свободно болтаются', dose: '1–2 мин' },
+          { name: 'Кошка-корова (cat-cow)', dose: '3 медленных вдоха' },
+          { name: 'Растяжка груди лёжа: рука в сторону, нога перекидывается через тело', dose: '1 PNF 5 сек на сторону' },
+          { name: 'Сидя, держась за стопы: максимально округлить спину', dose: '20 сек' },
+          { name: 'Качание коленями из стороны в сторону (hip swivels)', dose: '30 сек' },
+          { name: 'Ягодица на коленях со скруткой → колено к противоположному плечу', dose: '30 + 30 сек на сторону' },
+          { name: 'Лягушка с раскачиванием (frog rocks)', dose: '10 качаний' },
+          { name: 'Выпад, грудь на бедре, отводим таз назад до натяжения + PNF «пятка в пол»', dose: '1 мин на сторону, PNF 10 сек' },
+          { name: 'Сгибатель бедра в выпаде: таз подкручен, ягодица сжата', dose: '30 сек на сторону' },
+          { name: 'Наклон → присед → наклон → подъём', dose: '3 медленных повтора' },
+          { name: 'Собака мордой вверх (upward dog)', dose: '20–30 сек' },
+        ],
+        notes: [intensity, 'Можно чередовать любое из видео ниже — главное, делать каждый день.'],
+        videos: [V.beginnerV6, V.beginnerV5, V.morning],
+      },
+      {
+        id: 'l1-a',
+        kind: 'heavy',
+        slot: 'A',
+        title: 'Задняя поверхность бедра с весом',
+        freq: '2 раза в неделю',
+        duration: '25 мин',
+        intro: 'Меррик начинает с задней поверхности бедра: она «открывает» весь низ тела.',
+        steps: [
+          { name: 'Разминка: прыжки или скакалка', dose: '2–3 мин' },
+          { name: 'Махи ногами у стены вперёд-назад', dose: '10–15 на ногу' },
+          { name: 'Stick drill: палка под коленями, садишься на пятки и перекатываешь её вниз по икре', dose: '2–3 мин' },
+          { name: 'Флоссинг седалищного нерва: лёжа, нога вверх, носок на себя ↔ от себя', dose: '15 на ногу' },
+          { name: 'PNF икры на ступеньке: давишь носком 10–15 сек (40→80% усилия), выдох, глубже на 5 сек', dose: '3–4 цикла на ногу' },
+          { name: 'PNF задней поверхности лёжа с ремнём: то же, а на расслаблении тянешь ногу к себе квадрицепсом', dose: '3–4 цикла на ногу', note: 'Шаги 5–6 — суперсет, 2 круга, отдых 60 сек' },
+          { name: 'Jefferson curl: стоя на возвышении, скручиваешься позвонок за позвонком, ноги прямые, внизу активно тянешься вниз', dose: '10 повт + 10–30 сек удержание на последнем', note: 'Подходы по неделям: 2 → 3 → 4 → 2 (разгрузка), потом заново' },
+          { name: 'Перетест наклона', dose: 'сравни с началом' },
+        ],
+        notes: ['Вес в Jefferson curl: начни без веса или с 5 кг. К концу фазы — около 15% веса тела. Меррик редко берёт больше 20 кг.', intensity],
+        videos: [V.hamLoaded, V.jefferson, V.hamBig5, V.hamUnlock],
+      },
+      {
+        id: 'l1-b',
+        kind: 'heavy',
+        slot: 'B',
+        title: 'Присед + плечи',
+        freq: '1 раз в неделю',
+        duration: '15 мин',
+        steps: [
+          { name: 'Глубокий присед, держась за опору (дверная ручка, стойка)', dose: '3 × 30–60 сек' },
+          { name: '«Ангел» у стены, медленно', dose: '2 × 10' },
+          { name: 'German sit: сидя, руки сзади, пальцы назад, отползаешь руками, грудь вверх', dose: '60 сек' },
+          { name: 'Махи и вращения руками', dose: '1 мин' },
+          { name: 'Sleeper stretch: лёжа на плече, предплечье вниз', dose: '60 сек на сторону' },
+        ],
+        notes: [intensity],
+        videos: [V.squat, V.shoulderQuick, V.shoulderV2],
+      },
+    ],
+  },
+  {
+    id: 'l2',
+    num: 2,
+    short: 'Фундамент',
+    title: 'Фундамент под шпагаты',
+    months: 'месяцы 3–5',
+    goal: 'Уровень Basic+ по Меррику: сила и контроль в позициях, похожих на шпагаты, но с согнутыми ногами.',
+    heavyPerWeek: 3,
+    rotation: ['A', 'B', 'A'],
+    criteria: [
+      { id: 'l2-lunge', text: 'Длинный выпад: оба бедра параллельно полу' },
+      { id: 'l2-horse', text: 'Стойка наездника: бёдра параллельно полу' },
+      { id: 'l2-shoulder', text: 'Ротация плеч около 180°, плечи вниз и назад' },
+      { id: 'l2-jc', text: 'Jefferson curl с весом около 20% веса тела' },
+      { id: 'l2-gm', text: 'Good morning сидя: таз наклоняется, спина ровная' },
+    ],
+    routines: [
+      {
+        id: 'l2-light',
+        kind: 'light',
+        title: 'Лёгкая ежедневная',
+        freq: 'каждый день',
+        duration: '15–30 мин',
+        intro: 'Чередуй видео ниже. 2–3 раза в неделю добавляй в конец два упражнения — это тихая подготовка поперечного шпагата.',
+        steps: [
+          { name: 'Любое видео ниже на выбор', dose: '15–30 мин' },
+          { name: 'Стойка наездника (horse stance)', dose: '60–90 сек, 2–3 раза в неделю' },
+          { name: 'Бабочка (tailor pose), локти мягко давят на колени', dose: '60–90 сек, 2–3 раза в неделю' },
+        ],
+        notes: [intensity],
+        videos: [V.fullV6, V.daily7, V.beginnerV6],
+      },
+      {
+        id: 'l2-a',
+        kind: 'heavy',
+        slot: 'A',
+        title: 'Продольный шпагат',
+        freq: '2 раза в неделю',
+        duration: '30–35 мин',
+        intro: 'Пререквизит по Меррику — ладони к полу в наклоне. Продольный — это прежде всего сгибатели бедра, не только задняя поверхность.',
+        steps: [
+          { name: 'Качание коленями (hip swivels)', dose: '10 на сторону' },
+          { name: 'Присед ↔ наклон, грудь прижата к бёдрам', dose: '10 повт' },
+          { name: 'Тест шпагата: на блоках, запомни высоту', dose: 'обе ноги' },
+          { name: 'Stick drill', dose: '2 мин' },
+          { name: '90/90 + PNF «колено в пол»', dose: '3 × 5 сек на сторону' },
+          { name: 'Good morning в разножке: таз назад, передняя нога прямая', dose: '10 на сторону + 10 сек внизу' },
+          { name: 'Голубь со скруткой на опоре, грудь вертикально', dose: '2 × 10 сек скрутки на сторону' },
+          { name: 'Good morning в разножке, второй подход', dose: '10 на сторону + 10 сек' },
+          { name: 'Квадрицепс лёжа на локтях, ягодица сжата, таз вверх', dose: '30 сек на сторону' },
+          { name: 'Длинный выпад: поднимаешь заднее колено, ягодица сжата, таз остаётся низко', dose: '10 повт + 10 сек, 2 подхода на сторону' },
+          { name: 'Couch stretch у дивана или стены, таз подкручен', dose: '40–45 сек на сторону' },
+          { name: 'Перетест шпагата', dose: 'обе ноги' },
+          { name: 'Посидеть в шпагате чуть выше своего максимума', dose: '2 × 30–60 сек на сторону' },
+        ],
+        notes: ['Не форсируй последние сантиметры — именно там случаются травмы задней поверхности.', intensity],
+        videos: [V.frontV2, V.frontBig5, V.hipFlexors],
+      },
+      {
+        id: 'l2-b',
+        kind: 'heavy',
+        slot: 'B',
+        title: 'Плечи + база моста',
+        freq: '1 раз в неделю',
+        duration: '20 мин',
+        steps: [
+          { name: 'Sleeper stretch', dose: '60 сек на сторону' },
+          { name: 'Торакальные ротации лёжа на боку, колени прижаты', dose: '5 + 20 сек удержание на сторону' },
+          { name: 'German sit', dose: '60 сек' },
+          { name: 'Dislocates с палкой, хват постепенно уже', dose: '5–10 повт' },
+          { name: 'Cat stretch / butcher block: грудь к полу, корпус активный', dose: '40–45 сек' },
+          { name: 'Мост — прогрессия с возвышения (руки на скамье/диване)', dose: '3 × 30 сек' },
+        ],
+        notes: ['При мосте — никакого щипания в плечах и пояснице. Если щиплет, вернись на прогрессию проще.', intensity],
+        videos: [V.bridgeBig5, V.shoulderV2, V.bridgeTut],
+      },
+      {
+        id: 'l2-s',
+        kind: 'support',
+        title: 'Поддержка наклона',
+        freq: '1–2 раза в неделю, вместе с лёгкой',
+        duration: '10 мин',
+        steps: [
+          { name: 'Jefferson curl потяжелее', dose: '2 × 10' },
+          { name: 'Присед ↔ наклон', dose: '5 повт' },
+          { name: 'Активный подъём прямой ноги сидя', dose: '3 × 5 сек на ногу' },
+        ],
+        videos: [V.hamBig5, V.jefferson],
+      },
+    ],
+  },
+  {
+    id: 'l3',
+    num: 3,
+    short: 'Тройка',
+    title: 'Большая тройка',
+    months: 'месяцы 5–9',
+    goal: 'Три цели по кругу: продольный шпагат, pancake с подготовкой поперечного, плечи и мост.',
+    heavyPerWeek: 4,
+    rotation: ['A', 'B', 'C'],
+    criteria: [
+      { id: 'l3-legraise', text: 'Активный подъём прямой ноги до параллели с полом' },
+      { id: 'l3-pancake', text: 'Pancake сидя примерно 45° с прямой спиной' },
+      { id: 'l3-split', text: 'Активное удержание в продольном шпагате, руки не держат вес' },
+      { id: 'l3-overhead', text: 'Активный подъём рук за голову лёжа на животе' },
+      { id: 'l3-horse', text: 'Стойка наездника 2–3 мин подряд' },
+    ],
+    routines: [
+      {
+        id: 'l3-light',
+        kind: 'light',
+        title: 'Лёгкая ежедневная',
+        freq: 'каждый день',
+        duration: '15–30 мин',
+        intro: 'Как на прошлом уровне. Раз в 1–2 недели замени её на рутину подлиннее.',
+        steps: [
+          { name: 'Любое видео ниже на выбор', dose: '15–30 мин' },
+          { name: 'Стойка наездника + бабочка', dose: 'по 60–90 сек, 2–3 раза в неделю' },
+        ],
+        notes: [intensity],
+        videos: [V.daily7, V.fullV6, V.beginnerV6],
+      },
+      {
+        id: 'l3-a',
+        kind: 'heavy',
+        slot: 'A',
+        title: 'Продольный шпагат',
+        freq: 'по кругу A → B → C',
+        duration: '30 мин',
+        intro: 'Та же рутина, что на «Фундаменте», но сложнее: убирай блоки, держи шпагат активно, добавь подъёмы из шпагата.',
+        steps: [
+          { name: 'Разминка: hip swivels, присед ↔ наклон', dose: '10 + 10' },
+          { name: '90/90 + PNF', dose: '3 × 5 сек на сторону' },
+          { name: 'Good morning в разножке', dose: '2 × 10 на сторону + 10 сек' },
+          { name: 'Длинный выпад с подъёмом колена', dose: '2 × 10 + 10 сек на сторону' },
+          { name: 'Couch stretch, руки вверх', dose: '40–45 сек на сторону' },
+          { name: 'Активное удержание в шпагате, руки над полом', dose: '3 × 10–20 сек на сторону' },
+          { name: 'Пассивно в шпагате на минимальной опоре', dose: '2 × 30–60 сек на сторону' },
+        ],
+        notes: [intensity],
+        videos: [V.frontBig5, V.frontV2, V.hipFlexors],
+      },
+      {
+        id: 'l3-b',
+        kind: 'heavy',
+        slot: 'B',
+        title: 'Pancake + подготовка поперечного',
+        freq: 'по кругу A → B → C',
+        duration: '30–40 мин',
+        intro: 'Поперечный шпагат и pancake — одна «семья» мышц, Меррик разрешает тренировать их вместе. Первые 4 недели — без попыток сесть в поперечный: сначала укрепляем связки.',
+        steps: [
+          { name: 'Weighted tailor pose: спиной к стене, гантели на коленях, колени вверх-вниз', dose: '10 повт + 30–60 сек внизу' },
+          { name: 'Стойка наездника с весом', dose: '10 повт + 20–30 сек внизу', note: 'Шаги 1–2 — суперсет, 3–5 подходов, отдых 60 сек' },
+          { name: 'Seated good morning с весом на спине, ноги врозь, спина ровная', dose: '10 повт + 10–30 сек, 1–3 подхода', note: 'Начни с 5 кг. Если спина круглится — подложи под таз подушку' },
+          { name: 'Лягушка с раскачиванием', dose: '1–2 мин' },
+          { name: 'С 5-й недели: выезды из стойки наездника в поперечный', dose: '5 повт + 10 сек на последнем' },
+          { name: 'С 5-й недели: изометрия в поперечном (давишь стопами в пол, сжимаешь ягодицы)', dose: '3–5 × 20–60 сек' },
+        ],
+        notes: ['Пол — носки на ламинате или босиком на ковре: не слишком скользко и не слишком цепко.', intensity],
+        videos: [V.pancakeBig5, V.middleBig5, V.pancakeV2, V.weighted],
+      },
+      {
+        id: 'l3-c',
+        kind: 'heavy',
+        slot: 'C',
+        title: 'Плечи + мост',
+        freq: 'по кругу A → B → C',
+        duration: '20–25 мин',
+        steps: [
+          { name: 'Рутина на плечи (видео) или короткий набор с «Фундамента»', dose: '15–25 мин' },
+          { name: 'Мост — текущая прогрессия', dose: '3 × 30 сек' },
+        ],
+        notes: ['Двигайся от моста с возвышения к полному. Никакого щипания в плечах и пояснице.', intensity],
+        videos: [V.bridgeBig5, V.shoulderV2, V.bridgeTut],
+      },
+    ],
+  },
+  {
+    id: 'l4',
+    num: 4,
+    short: 'Дожим',
+    title: 'Дожим',
+    months: 'месяцы 9–12',
+    goal: 'Поперечный шпагат — приоритет. Продольный — дожать или поддерживать. Мост — к полному.',
+    heavyPerWeek: 4,
+    rotation: ['A', 'B', 'A', 'C'],
+    criteria: [
+      { id: 'l4-front-l', text: 'Продольный шпагат до пола — левая нога впереди' },
+      { id: 'l4-front-r', text: 'Продольный шпагат до пола — правая нога впереди' },
+      { id: 'l4-pancake', text: 'Pancake: грудь у пола' },
+      { id: 'l4-middle', text: 'Поперечный шпагат до пола' },
+      { id: 'l4-bridge', text: 'Мост с пола, руки прямые' },
+    ],
+    routines: [
+      {
+        id: 'l4-light',
+        kind: 'light',
+        title: 'Лёгкая ежедневная',
+        freq: 'каждый день',
+        duration: '15–30 мин',
+        steps: [
+          { name: 'Любое видео ниже на выбор', dose: '15–30 мин' },
+          { name: 'Мост 3 × 30 сек — в дни, когда нет блока C', dose: 'по желанию' },
+        ],
+        notes: [intensity],
+        videos: [V.daily7, V.fullV6, V.beginnerV6],
+      },
+      {
+        id: 'l4-a',
+        kind: 'heavy',
+        slot: 'A',
+        title: 'Поперечный шпагат с весом',
+        freq: '2 раза в неделю',
+        duration: '35–45 мин',
+        intro: 'Протокол Эммета Луиса в версии Меррика. Подходы по неделям: 3 → 4 → 5 → разгрузка, затем добавляй вес или повторы.',
+        steps: [
+          { name: 'Разминка нижней части тела', dose: '5 мин' },
+          { name: 'Weighted tailor pose у стены', dose: '10 повт + 30–60 сек' },
+          { name: 'Стойка наездника с весом (как в сумо-тяге)', dose: '10 повт + 20–30 сек', note: 'Шаги 2–3 — суперсет, 3–5 подходов, отдых 60 сек' },
+          { name: 'Weighted pancake / seated good morning', dose: '10 повт + 10–30 сек, 1–3 подхода' },
+          { name: 'Изометрия в поперечном: на 2 см уже максимума, напряжены приводящие и ягодицы', dose: '3–5 × 20–60 сек' },
+          { name: 'Straddle-ups: из седа ноги врозь встать в разножку (с опорой на руки)', dose: '5–10 повт + 10–20 сек' },
+          { name: 'Казачьи приседания с весом', dose: '5 на сторону' },
+        ],
+        notes: ['Если глубоко в тазу щиплет или упирается «жёстко» — возможно, это кость. Тут упорство не поможет, не дави.', intensity],
+        videos: [V.middleLoaded, V.middleBig5, V.middleV2, V.middlePnf],
+      },
+      {
+        id: 'l4-b',
+        kind: 'heavy',
+        slot: 'B',
+        title: 'Продольный: дожим или поддержка',
+        freq: '1 раз в неделю',
+        duration: '20–30 мин',
+        intro: 'Если уже на полу — делай 1 раз в неделю, чтобы держать: «поддерживать куда проще, чем добывать». Если нет — делай рутину третьего уровня полностью.',
+        steps: [
+          { name: 'Рутина «Продольный шпагат» с третьего уровня', dose: 'полностью или сокращённо' },
+          { name: 'Пассивно в шпагате', dose: '2 × 30–60 сек на сторону' },
+        ],
+        notes: [intensity],
+        videos: [V.frontBig5, V.frontV2],
+      },
+      {
+        id: 'l4-c',
+        kind: 'heavy',
+        slot: 'C',
+        title: 'Мост + плечи',
+        freq: '1 раз в неделю + мост в лёгкие дни',
+        duration: '20 мин',
+        steps: [
+          { name: 'Подготовка плеч (видео)', dose: '15 мин' },
+          { name: 'Мост — текущая прогрессия к полному', dose: '3 × 30 сек' },
+        ],
+        notes: [intensity],
+        videos: [V.bridgeBig5, V.shoulderV2, V.bridgeTut],
+      },
+      {
+        id: 'l4-big5',
+        kind: 'support',
+        title: '«Большая пятёрка» — контрольная',
+        freq: 'раз в 2 недели вместо лёгкой',
+        duration: '60 мин',
+        intro: 'Все пять направлений за одну сессию: мост, наклон, продольный, поперечный, pancake. «Сначала сила, потом длина» — по 2 подхода на каждое.',
+        steps: [
+          { name: 'Follow-along целиком', dose: '60 мин' },
+        ],
+        videos: [V.big5],
+      },
+    ],
+  },
+]
+
+export const theory: TheorySection[] = [
+  {
+    title: 'Формула Меррика',
+    body: [
+      'Каждый день — лёгкая работа с диапазоном (grease the groove): 10–20 минут спокойной растяжки. Она держит тело «включённым» в диапазон.',
+      'Плюс 2 раза в неделю на цель — тяжёлая сессия: растяжка с весом, изометрия, PNF. Это и есть «торт», а лёгкая — «вишенка». Максимум 3 раза в неделю: больше — не лучше.',
+      'Тяжёлая растяжка — это по сути силовая тренировка: подходы, отдых, прогрессия, каждая 4-я неделя — разгрузка.',
+    ],
+    videos: [V.howOften],
+  },
+  {
+    title: 'Сколько ждать',
+    body: [
+      'Первые видимые сдвиги — до ~6 месяцев. Наклон ладонями к полу — 1–6 месяцев. Продольный шпагат у тугих мужчин — 4–12 месяцев. Поперечный — 12–24+ месяца и может упереться в форму тазобедренного сустава.',
+      'Меррику на поперечный понадобилось 12 месяцев по 2 раза в неделю. Последние 10 см заняли 5 месяцев.',
+      'Тугие от природы прогрессируют быстрее всех — это хорошая новость.',
+    ],
+    videos: [V.howLong, V.bendy5],
+  },
+  {
+    title: 'Между силовыми или после',
+    body: [
+      'Оба варианта работают. Нельзя только одно — тяжёлую растяжку прямо перед силовой: это притупляет рост силы.',
+      'После силовой (как советует Меррик): ты уже разогрет, дни отдыха остаются лёгкими.',
+      'Между силовыми: тренировки короче и на силовую приходишь свежим. Но нужна разминка 5–10 мин, и нагрузка становится ежедневной. Если завтра ноги — лучше блок на плечи.',
+      'Переключается в настройках.',
+    ],
+  },
+  {
+    title: 'Безопасность',
+    body: [
+      'Интенсивность — «до дискомфорта», не до боли. Боль не ускоряет результат.',
+      'Острая боль, прострел, онемение, щипание глубоко в суставе — стоп.',
+      'Главный риск — форсировать последние сантиметры шпагата и пружинить в конце амплитуды.',
+      'Тяжёлое по одному региону — не чаще 2–3 раз в неделю. Болит через 48 часов — урезай объём.',
+      'Замеряй прогресс только разогретым, раз в месяц, в одинаковых условиях.',
+    ],
+    videos: [V.notWorking],
+  },
+  {
+    title: 'Что не работает',
+    body: [
+      '«Шпагат за 30 дней» — маркетинг.',
+      'Интенсивно тянуться каждый день — без восстановления прогресс встаёт.',
+      'Только пассивная растяжка — у взрослых прогресс идёт через силу в конце амплитуды.',
+      '«Растяжка защищает от травм» — не подтверждено. Силовые — да.',
+      '«Силовые делают деревянным» — миф при полной амплитуде.',
+    ],
+  },
+]
+
+export const allRoutines: Routine[] = [testRoutine, ...levels.flatMap((l) => l.routines)]
+
+export const findRoutine = (id: string) => allRoutines.find((r) => r.id === id)
+export const findLevel = (id: string) => levels.find((l) => l.id === id)
+export const levelOfRoutine = (id: string) => levels.find((l) => l.routines.some((r) => r.id === id))
+export const allVideos = (): Video[] => [...new Map([...allRoutines.flatMap((r) => r.videos), ...theory.flatMap((t) => t.videos ?? [])].map((v) => [v.id, v])).values()]
