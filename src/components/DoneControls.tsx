@@ -58,8 +58,8 @@ export function DoneSection({ routine }: { routine: Routine }) {
             {mine.slice(0, 5).map((l) => (
               <div key={l.id} className="row between small" style={{ padding: '4px 0' }}>
                 <span>{human(l.date)}</span>
-                <button className="btn sm" style={{ background: 'none', color: 'var(--muted)' }} onClick={() => removeLog(l.id)} aria-label="Удалить отметку">
-                  Удалить
+                <button className="btn sm" style={{ background: 'none', color: 'var(--muted)', fontSize: 18, fontWeight: 400, padding: '0 8px' }} onClick={() => removeLog(l.id)} aria-label="Удалить отметку">
+                  ×
                 </button>
               </div>
             ))}

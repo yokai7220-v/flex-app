@@ -23,7 +23,7 @@ export function PhotoDetail({ id }: { id: string }) {
       {url && <img src={url} alt="" style={{ width: '100%', borderRadius: 16, display: 'block', background: 'var(--card)' }} />}
       <div className="card" style={{ marginTop: 10 }}>
         <div className="row" style={{ gap: 6, flexWrap: 'wrap' }}>
-          <span className="chip">{human(photo.date)}</span>
+          <span className="chip">{human(photo.date).replace(/^./, (c) => c.toUpperCase())}</span>
           <span className={photo.state === 'cold' ? 'chip' : 'chip warn'}>{photo.state === 'cold' ? 'Холодный' : 'Разогретый'}</span>
         </div>
         {photo.note && <p className="small wrap" style={{ margin: '10px 0 0' }}>{photo.note}</p>}
