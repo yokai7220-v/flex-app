@@ -26,10 +26,14 @@ function Thumb({ photo, onClick, selected }: { photo: Photo; onClick: () => void
         }}
       >
         <span className="chip" style={{ position: 'absolute', left: 6, bottom: 6, background: 'rgba(255,255,255,0.9)', color: 'var(--text)', padding: '2px 7px' }}>
-          {photo.state === 'cold' ? '❄︎' : '♨︎'} {shortDate(photo.date)}
+          {shortDate(photo.date)}
         </span>
       </div>
-      <div className="tiny muted" style={{ marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{poseLabel(photo.pose)}</div>
+      <div className="tiny muted" style={{ marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {poseLabel(photo.pose)}
+        <br />
+        {photo.state === 'cold' ? 'холодный' : 'разогретый'}
+      </div>
     </button>
   )
 }
