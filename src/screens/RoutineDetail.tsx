@@ -23,8 +23,8 @@ export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
       {!embed && (
         <div className="row" style={{ gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
           <span className={kindChip(r)}>{kindLabel(r)}</span>
-          {level && <span className="chip">Уровень {level.num}</span>}
-          <span className="chip">{r.freq}</span>
+          {level && <span className="chip">{level.short}</span>}
+          {r.freq && <span className="chip">{r.freq}</span>}
           <span className="chip">{r.duration}</span>
         </div>
       )}

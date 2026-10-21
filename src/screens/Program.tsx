@@ -105,10 +105,11 @@ export function RoutineCard({ r, right }: { r: Routine; right?: React.ReactNode 
             <span className="tiny muted">{r.duration}</span>
           </div>
           <div className="bold wrap">{r.title}</div>
-          <div className="small muted">
-            {r.freq}
-            {last ? ` · последний раз ${human(last.date)}` : ''}
-          </div>
+          {(r.freq || last) && (
+            <div className="small muted">
+              {[r.freq, last ? `последний раз ${human(last.date)}` : ''].filter(Boolean).join(' · ')}
+            </div>
+          )}
         </div>
         {right ?? <IconChevron />}
       </div>

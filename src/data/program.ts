@@ -295,7 +295,7 @@ export const levels: Level[] = [
         kind: 'heavy',
         slot: 'A',
         title: 'Продольный шпагат',
-        freq: 'по кругу A → B → C',
+        freq: '',
         duration: '30 мин',
         intro: 'Та же рутина, что на Basic+, но сложнее: убирай блоки, держи шпагат активно, добавь подъёмы из шпагата.',
         steps: [
@@ -314,7 +314,7 @@ export const levels: Level[] = [
         kind: 'heavy',
         slot: 'B',
         title: 'Pancake + подготовка поперечного',
-        freq: 'по кругу A → B → C',
+        freq: '',
         duration: '30–40 мин',
         intro: 'Поперечный шпагат и pancake — одна группа мышц, у Меррика они тренируются вместе. Первые 4 недели — без попыток сесть в поперечный: сначала укрепляем связки.',
         steps: [
@@ -333,7 +333,7 @@ export const levels: Level[] = [
         kind: 'heavy',
         slot: 'C',
         title: 'Плечи + мост',
-        freq: 'по кругу A → B → C',
+        freq: '',
         duration: '20–25 мин',
         steps: [
           { name: 'Рутина на плечи (видео) или короткий набор с Basic+', dose: '15–25 мин' },
