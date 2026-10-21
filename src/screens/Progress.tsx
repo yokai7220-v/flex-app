@@ -9,25 +9,25 @@ import { weekBars, windowStats, type WindowStats } from '../lib/stats'
 import { useNav } from '../nav'
 import { removeLog, useStore } from '../store'
 import { PhotosView } from './Photos'
-import { RoutineCard } from './Program'
 
 const fmt = (n: number) => n.toFixed(1).replace('.', ',')
 
 export function ProgressScreen() {
-  const { route, replace } = useNav()
+  const { route, replace, go } = useNav()
   const sub = route.sub ?? 'stats'
   return (
     <div className="screen">
       <Top title="Прогресс" big />
-      <Seg
+      <Seg<string>
         value={sub}
-        onChange={(s) => replace({ tab: 'progress', sub: s })}
+        onChange={(s) => (s === 'measure' ? go({ tab: 'progress', routine: testRoutine.id }) : replace({ tab: 'progress', sub: s as 'stats' | 'photos' }))}
         options={[
           { id: 'stats', label: 'Статистика' },
           { id: 'photos', label: 'Фото' },
+          { id: 'measure', label: 'Замер' },
         ]}
       />
-      {sub === 'stats' ? <StatsView /> : <PhotosView />}
+      {sub === 'photos' ? <PhotosView /> : <StatsView />}
     </div>
   )
 }
@@ -66,17 +66,10 @@ function StatsView() {
   const dayLogs = day ? logs.filter((l) => l.date === day) : []
 
   if (!w7 || !w30)
-    return (
-      <>
-        <RoutineCard r={testRoutine} />
-        <div className="card empty">Отметь первую рутину — здесь появятся средние за неделю и за месяц. Никаких «дней подряд»: пропуск ничего не обнуляет.</div>
-      </>
-    )
+    return <div className="card empty">Отметь первую рутину — здесь появятся средние за неделю и за месяц. Никаких «дней подряд»: пропуск ничего не обнуляет.</div>
 
   return (
     <>
-      <RoutineCard r={testRoutine} />
-
       <Metric label="Лёгкая работа" unit="дн/нед" target={7} w7={w7} w30={w30} pick={(s) => s.lightPerWeek} />
       <Metric label="Тяжёлые сессии" unit="в нед" target={target} w7={w7} w30={w30} pick={(s) => s.heavyPerWeek} />
       <Metric label="Выполнение плана" unit="" w7={w7} w30={w30} pick={(s) => s.adherence} pct />
