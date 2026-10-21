@@ -20,9 +20,9 @@ export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
       {!embed && <Top title={r.title} back />}
 
       {r.kind === 'heavy' && settings.heavyMode === 'after' && (
-        <div className="banner info">Делай сразу после силовой, пока разогрет, без отдельной разминки. Не перед силовой.</div>
+        <p className="note">Делай сразу после силовой, пока разогрет, без отдельной разминки. Не перед силовой.</p>
       )}
-      {r.intro && <div className="card small">{r.intro}</div>}
+      {r.intro && <p className="lead">{r.intro}</p>}
 
       <div className="section-title">Видео</div>
       <div className="card" style={{ paddingTop: 8, paddingBottom: 8 }}>
@@ -43,7 +43,7 @@ export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
       </div>
 
       {r.notes && r.notes.length > 0 && (
-        <div className="card small muted stack">
+        <div className="note stack">
           {r.notes.map((n) => <div key={n}>{n}</div>)}
         </div>
       )}

@@ -79,6 +79,8 @@ a { color: var(--accent); }
 .card.tap:active { opacity: 0.7; }
 
 .muted { color: var(--muted); }
+.lead { font-size: 15px; margin: 0 4px 16px; }
+.note { font-size: 14px; color: var(--muted); margin: 0 4px 10px; }
 .small { font-size: 14px; }
 .tiny { font-size: 12px; }
 .bold { font-weight: 600; }

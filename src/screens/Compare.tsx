@@ -49,13 +49,13 @@ export function CompareScreen() {
                 ]}
               />
               {mode === 'slider' ? <CompareSlider before={before.blob} after={after.blob} labels={labels} /> : <SideBySide before={before.blob} after={after.blob} labels={labels} />}
-              <div className="card small" style={{ marginTop: 10 }}>
+              <div className="small" style={{ margin: '10px 4px 0' }}>
                 {gap === 0 ? 'Один и тот же день.' : `${gap} ${plural(gap, 'день', 'дня', 'дней')} между фото.`}
                 {before.state !== after.state && <div className="muted">Одно фото до разминки, другое после, сравнение неточное.</div>}
               </div>
             </>
           ) : (
-            <div className="card small muted">
+            <div className="note">
               {ofPose.length < 2 ? 'У этой позы одно фото. Для сравнения нужно второе.' : 'Выбери два фото ниже.'}
             </div>
           )}
