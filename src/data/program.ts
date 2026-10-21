@@ -73,8 +73,6 @@ const warmupBetween: Step = {
 
 export const WARMUP_STEP = warmupBetween
 
-const intensity = 'Интенсивность — «тянет сильно, но терпимо», примерно 7/10. Дыхание ровное. Острая боль, прострел, онемение — стоп.'
-
 export const testRoutine: Routine = {
   id: 'test',
   kind: 'test',
@@ -131,7 +129,7 @@ export const levels: Level[] = [
           { name: 'Наклон → присед → наклон → подъём', dose: '3 медленных повтора' },
           { name: 'Собака мордой вверх (upward dog)', dose: '20–30 сек' },
         ],
-        notes: [intensity, 'Можно чередовать любое из видео выше — главное, делать каждый день.'],
+        notes: ['Можно чередовать любое из видео выше — главное, делать каждый день.'],
         videos: [V.beginnerV6, V.beginnerV5, V.morning],
       },
       {
@@ -151,7 +149,7 @@ export const levels: Level[] = [
           { name: 'Jefferson curl: стоя на возвышении, скручиваешься позвонок за позвонком, ноги прямые, внизу активно тянешься вниз', dose: '10 повт + 10–30 сек удержание на последнем', note: 'Подходы по неделям: 2 → 3 → 4 → 2 (разгрузка), потом заново' },
           { name: 'Перетест наклона', dose: 'сравни с началом' },
         ],
-        notes: ['Вес в Jefferson curl: начни без веса или с 5 кг. К концу фазы — около 15% веса тела.', intensity],
+        notes: ['Вес в Jefferson curl: начни без веса или с 5 кг. К концу фазы — около 15% веса тела.'],
         videos: [V.hamLoaded, V.jefferson, V.hamBig5, V.hamUnlock],
       },
       {
@@ -168,7 +166,6 @@ export const levels: Level[] = [
           { name: 'Махи и вращения руками', dose: '1 мин' },
           { name: 'Sleeper stretch: лёжа на плече, предплечье вниз', dose: '60 сек на сторону' },
         ],
-        notes: [intensity],
         videos: [V.squat, V.shoulderQuick, V.shoulderV2],
       },
     ],
@@ -202,7 +199,6 @@ export const levels: Level[] = [
           { name: 'Стойка наездника (horse stance)', dose: '60–90 сек, 2–3 раза в неделю' },
           { name: 'Бабочка (tailor pose), локти мягко давят на колени', dose: '60–90 сек, 2–3 раза в неделю' },
         ],
-        notes: [intensity],
         videos: [V.fullV6, V.daily7, V.beginnerV6],
       },
       {
@@ -228,7 +224,7 @@ export const levels: Level[] = [
           { name: 'Перетест шпагата', dose: 'обе ноги' },
           { name: 'Посидеть в шпагате чуть выше своего максимума', dose: '2 × 30–60 сек на сторону' },
         ],
-        notes: ['Не форсируй последние сантиметры — именно там случаются травмы задней поверхности.', intensity],
+        notes: ['Не форсируй последние сантиметры — именно там случаются травмы задней поверхности.'],
         videos: [V.frontV2, V.frontBig5, V.hipFlexors],
       },
       {
@@ -246,7 +242,7 @@ export const levels: Level[] = [
           { name: 'Cat stretch / butcher block: грудь к полу, корпус активный', dose: '40–45 сек' },
           { name: 'Мост — прогрессия с возвышения (руки на скамье/диване)', dose: '3 × 30 сек' },
         ],
-        notes: ['При мосте — никакого щипания в плечах и пояснице. Если щиплет, вернись на прогрессию проще.', intensity],
+        notes: ['При мосте — никакого щипания в плечах и пояснице. Если щиплет, вернись на прогрессию проще.'],
         videos: [V.bridgeBig5, V.shoulderV2, V.bridgeTut],
       },
       {
@@ -292,7 +288,6 @@ export const levels: Level[] = [
           { name: 'Любое видео выше на выбор', dose: '15–30 мин' },
           { name: 'Стойка наездника + бабочка', dose: 'по 60–90 сек, 2–3 раза в неделю' },
         ],
-        notes: [intensity],
         videos: [V.daily7, V.fullV6, V.beginnerV6],
       },
       {
@@ -312,7 +307,6 @@ export const levels: Level[] = [
           { name: 'Активное удержание в шпагате, руки над полом', dose: '3 × 10–20 сек на сторону' },
           { name: 'Пассивно в шпагате на минимальной опоре', dose: '2 × 30–60 сек на сторону' },
         ],
-        notes: [intensity],
         videos: [V.frontBig5, V.frontV2, V.hipFlexors],
       },
       {
@@ -331,7 +325,7 @@ export const levels: Level[] = [
           { name: 'С 5-й недели: выезды из стойки наездника в поперечный', dose: '5 повт + 10 сек на последнем' },
           { name: 'С 5-й недели: изометрия в поперечном (давишь стопами в пол, сжимаешь ягодицы)', dose: '3–5 × 20–60 сек' },
         ],
-        notes: ['Пол — носки на ламинате или босиком на ковре: не слишком скользко и не слишком цепко.', intensity],
+        notes: ['Пол — носки на ламинате или босиком на ковре: не слишком скользко и не слишком цепко.'],
         videos: [V.pancakeBig5, V.middleBig5, V.pancakeV2, V.weighted],
       },
       {
@@ -345,7 +339,7 @@ export const levels: Level[] = [
           { name: 'Рутина на плечи (видео) или короткий набор с Basic+', dose: '15–25 мин' },
           { name: 'Мост — текущая прогрессия', dose: '3 × 30 сек' },
         ],
-        notes: ['Двигайся от моста с возвышения к полному. Никакого щипания в плечах и пояснице.', intensity],
+        notes: ['Двигайся от моста с возвышения к полному. Никакого щипания в плечах и пояснице.'],
         videos: [V.bridgeBig5, V.shoulderV2, V.bridgeTut],
       },
     ],
@@ -377,7 +371,6 @@ export const levels: Level[] = [
           { name: 'Любое видео выше на выбор', dose: '15–30 мин' },
           { name: 'Мост 3 × 30 сек — в дни, когда нет блока C', dose: 'по желанию' },
         ],
-        notes: [intensity],
         videos: [V.daily7, V.fullV6, V.beginnerV6],
       },
       {
@@ -397,7 +390,7 @@ export const levels: Level[] = [
           { name: 'Straddle-ups: из седа ноги врозь встать в разножку (с опорой на руки)', dose: '5–10 повт + 10–20 сек' },
           { name: 'Казачьи приседания с весом', dose: '5 на сторону' },
         ],
-        notes: ['Если глубоко в тазу щиплет или упирается «жёстко» — возможно, это кость. Тут упорство не поможет, не дави.', intensity],
+        notes: ['Если глубоко в тазу щиплет или упирается «жёстко» — возможно, это кость. Тут упорство не поможет, не дави.'],
         videos: [V.middleLoaded, V.middleBig5, V.middleV2, V.middlePnf],
       },
       {
@@ -412,7 +405,6 @@ export const levels: Level[] = [
           { name: 'Рутина «Продольный шпагат» с третьего уровня', dose: 'полностью или сокращённо' },
           { name: 'Пассивно в шпагате', dose: '2 × 30–60 сек на сторону' },
         ],
-        notes: [intensity],
         videos: [V.frontBig5, V.frontV2],
       },
       {
@@ -426,7 +418,6 @@ export const levels: Level[] = [
           { name: 'Подготовка плеч (видео)', dose: '15 мин' },
           { name: 'Мост — текущая прогрессия к полному', dose: '3 × 30 сек' },
         ],
-        notes: [intensity],
         videos: [V.bridgeBig5, V.shoulderV2, V.bridgeTut],
       },
       {
