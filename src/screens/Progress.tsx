@@ -84,7 +84,7 @@ function StatsView() {
           ]}
         />
         <BarChart bars={weekBars(logs)} metric={metric} target={metric === 'light' ? 7 : target} />
-        <div className="tiny muted" style={{ marginTop: 4 }}>Столбик — неделя, линия — среднее за 4 недели. Бледный столбик — текущая неделя, ещё идёт, в среднее не входит.</div>
+        <div className="tiny muted" style={{ marginTop: 4 }}>Столбик — неделя, линия — среднее за 4 недели. Бледный — текущая, в среднее не входит.</div>
       </div>
 
       <div className="section-title">Календарь</div>

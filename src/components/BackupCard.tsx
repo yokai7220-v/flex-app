@@ -33,7 +33,7 @@ export function BackupCard() {
         {logs.length} {plural(logs.length, 'отметка', 'отметки', 'отметок')} · {photos.length} фото · ~{approxSizeMB(photos).toFixed(1).replace('.', ',')} МБ
       </div>
       <div className="small muted" style={{ marginBottom: 12 }}>
-        Последний бэкап: {settings.lastBackup ? human(toStr(new Date(settings.lastBackup))) : 'не было'}. Всё хранится только в этом телефоне — удалишь приложение без бэкапа, и данные пропадут.
+        Последний бэкап: {settings.lastBackup ? human(toStr(new Date(settings.lastBackup))) : 'не было'}. Всё хранится только в этом телефоне — удалишь без бэкапа, и данные пропадут.
       </div>
       {ready ? (
         <button
