@@ -13,7 +13,8 @@ const levelDone = (l: Level, s: { currentLevel: string; criteria: Record<string,
 export function ProgramScreen() {
   const { route, replace } = useNav()
   const { settings } = useStore()
-  const sel = route.level ?? settings.currentLevel
+  if (route.level === 'theory') return <TheoryScreen />
+  const sel = levels.some((l) => l.id === route.level) ? route.level! : settings.currentLevel
 
   return (
     <div className="screen">
@@ -21,34 +22,33 @@ export function ProgramScreen() {
       <Seg
         value={sel}
         onChange={(level) => replace({ tab: 'program', level })}
-        options={[
-          ...levels.map((l) => ({ id: l.id, label: l.short, dot: l.id === settings.currentLevel, done: levelDone(l, settings) })),
-          { id: 'theory', label: 'Теория' },
-        ]}
+        options={levels.map((l) => ({ id: l.id, label: l.short, dot: l.id === settings.currentLevel, done: levelDone(l, settings) }))}
       />
-      {sel === 'theory' ? <TheoryView /> : <LevelView level={levels.find((l) => l.id === sel)!} />}
+      <LevelView level={levels.find((l) => l.id === sel)!} />
     </div>
   )
 }
 
-function TheoryView() {
+function TheoryScreen() {
   return (
-    <>
+    <div className="screen">
+      <Top title="Теория" back />
       {theory.map((t) => (
-        <div className="card" key={t.title}>
-          <div className="bold" style={{ marginBottom: 8 }}>{t.title}</div>
-          <ul className="list small">
+        <details className="card fold" key={t.title}>
+          <summary className="bold">{t.title}</summary>
+          <ul className="list small" style={{ marginTop: 10 }}>
             {t.body.map((p) => <li key={p}>{p}</li>)}
           </ul>
           {t.videos && <div style={{ marginTop: 10 }}><VideoList videos={t.videos} /></div>}
-        </div>
+        </details>
       ))}
-    </>
+    </div>
   )
 }
 
 function LevelView({ level }: { level: Level }) {
   const { settings } = useStore()
+  const { go } = useNav()
   const isCurrent = settings.currentLevel === level.id
   const done = levelDone(level, settings)
   const passed = level.criteria.filter((c) => settings.criteria[c.id]).length
@@ -87,6 +87,11 @@ function LevelView({ level }: { level: Level }) {
             <div className="grow small">{c.text}</div>
           </div>
         ))}
+      </div>
+
+      <div className="card tap row" style={{ marginTop: 24 }} onClick={() => go({ tab: 'program', level: 'theory' })}>
+        <div className="grow bold">Теория и словарь</div>
+        <IconChevron />
       </div>
     </>
   )

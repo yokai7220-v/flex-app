@@ -76,6 +76,10 @@ a { color: var(--accent); }
   margin-bottom: 10px;
 }
 .card.tap { cursor: pointer; }
+.fold summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.fold summary::-webkit-details-marker { display: none; }
+.fold summary::after { content: ''; width: 7px; height: 7px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin: -4px 4px 0 12px; transition: transform 0.15s; }
+.fold[open] summary::after { transform: rotate(-135deg); margin-top: 4px; }
 .card.tap:active { opacity: 0.7; }
 
 .muted { color: var(--muted); }
