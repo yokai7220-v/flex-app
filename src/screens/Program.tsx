@@ -61,6 +61,7 @@ function TheoryView() {
 
 function LevelView({ level }: { level: Level }) {
   const { settings } = useStore()
+  const { replace } = useNav()
   const isCurrent = settings.currentLevel === level.id
   const passed = level.criteria.filter((c) => settings.criteria[c.id]).length
   const next = levels.find((l) => l.num === level.num + 1)
@@ -98,7 +99,14 @@ function LevelView({ level }: { level: Level }) {
         ))}
       </div>
       {passed === level.criteria.length && next && (
-        <div className="banner info">Все критерии выполнены — можно переходить на уровень {next.num} «{next.short}».</div>
+        <div className="banner info row between">
+          <span className="grow">Все критерии выполнены — можно переходить на уровень {next.num} «{next.short}».</span>
+          {isCurrent && (
+            <button className="btn primary sm" onClick={() => { updateSettings({ currentLevel: next.id, levelStart: today() }); replace({ tab: 'program', level: next.id }) }}>
+              Перейти
+            </button>
+          )}
+        </div>
       )}
 
       <div className="section-title">Рутины</div>
