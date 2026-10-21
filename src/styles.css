@@ -181,6 +181,10 @@ a { color: var(--accent); }
 
 .done-mark { color: var(--accent); font-weight: 600; font-size: 14px; }
 
+.pbar { position: relative; height: 10px; border-radius: 5px; background: var(--bg); overflow: hidden; }
+.pbar .fill { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 5px; background: var(--accent); }
+.pbar .tick { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--card); }
+
 .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; }
 .steps li {
   counter-increment: s;

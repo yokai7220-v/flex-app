@@ -1,4 +1,4 @@
-import type { Level, Routine } from '../data/program'
+import { findLevel, type Level, type Routine } from '../data/program'
 import type { Log, Photo, Settings } from '../db'
 import { addDays, diffDays, today, weekStart, weekdayIdx, type DateStr } from './date'
 
@@ -21,6 +21,14 @@ export function nextHeavy(level: Level, logs: Log[]): Routine {
 }
 
 export const levelWeek = (s: Settings, d: DateStr = today()) => Math.max(0, Math.floor(diffDays(d, s.levelStart) / 7)) + 1
+
+const DAYS_PER_MONTH = 365.25 / 12
+
+export function programProgress(s: Settings, d: DateStr = today()): { months: number; pct: number } {
+  const level = findLevel(s.currentLevel)!
+  const months = Math.max(0, level.span[0] + diffDays(d, s.levelStart) / DAYS_PER_MONTH)
+  return { months, pct: Math.min(1, months / 12) }
+}
 
 export const isDeload = (s: Settings, d: DateStr = today()) => levelWeek(s, d) % 4 === 0
 
