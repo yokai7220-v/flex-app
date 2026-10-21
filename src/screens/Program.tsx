@@ -22,7 +22,7 @@ export function ProgramScreen() {
         value={sel}
         onChange={(level) => replace({ tab: 'program', level })}
         options={[
-          ...levels.map((l) => ({ id: l.id, label: `${l.num} · ${l.short}`, dot: l.id === settings.currentLevel, done: levelDone(l, settings) })),
+          ...levels.map((l) => ({ id: l.id, label: l.short, dot: l.id === settings.currentLevel, done: levelDone(l, settings) })),
           { id: 'theory', label: 'Теория' },
         ]}
       />
@@ -49,11 +49,9 @@ function TheoryView() {
 
 function LevelView({ level }: { level: Level }) {
   const { settings } = useStore()
-  const { replace } = useNav()
   const isCurrent = settings.currentLevel === level.id
   const done = levelDone(level, settings)
   const passed = level.criteria.filter((c) => settings.criteria[c.id]).length
-  const next = levels.find((l) => l.num === level.num + 1)
 
   const toggle = (id: string) => updateSettings({ criteria: { ...settings.criteria, [id]: !settings.criteria[id] } })
 
@@ -63,7 +61,7 @@ function LevelView({ level }: { level: Level }) {
         <div className="row between">
           <div className="grow">
             <div className="bold" style={{ fontSize: 20 }}>{level.title}{done && <span style={{ color: 'var(--accent)' }}> ✓</span>}</div>
-            <div className="small muted">{level.months} · {level.heavyPerWeek} тяжёлых в неделю</div>
+            <div className="small muted">{level.months}</div>
           </div>
           {isCurrent ? (
             <span className="chip accent">Текущий</span>
@@ -90,16 +88,6 @@ function LevelView({ level }: { level: Level }) {
           </div>
         ))}
       </div>
-      {passed === level.criteria.length && next && (
-        <div className="banner info row between">
-          <span className="grow">Все критерии выполнены — можно переходить на уровень {next.num} «{next.short}».</span>
-          {isCurrent && (
-            <button className="btn primary sm" onClick={() => { updateSettings({ currentLevel: next.id, levelStart: today() }); replace({ tab: 'program', level: next.id }) }}>
-              Перейти
-            </button>
-          )}
-        </div>
-      )}
     </>
   )
 }
