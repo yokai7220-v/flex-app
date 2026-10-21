@@ -1,9 +1,9 @@
 import { CheckButton } from '../components/DoneControls'
 import { InstallHint } from '../components/InstallHint'
 import { Top } from '../components/ui'
-import { findLevel, levels } from '../data/program'
+import { findLevel } from '../data/program'
 import { dayLabel, diffDays, human, today } from '../lib/date'
-import { isDeload, lastMeasure, levelWeek, nextHeavy, planToday, programProgress } from '../lib/schedule'
+import { isDeload, lastMeasure, levelWeek, nextHeavy, planToday } from '../lib/schedule'
 import { useNav } from '../nav'
 import { useStore } from '../store'
 import { RoutineCard } from './Program'
@@ -21,9 +21,6 @@ export function TodayScreen() {
   const measured = lastMeasure(logs, photos)
   const measureDue = !measured || diffDays(t, measured) > 28
   const backupDue = photos.length > 0 && (!settings.lastBackup || Date.now() - settings.lastBackup > 30 * DAY)
-  const prog = programProgress(settings)
-  const month = Math.min(12, Math.floor(prog.months) + 1)
-  const pct = Math.round(prog.pct * 100)
 
   return (
     <div className="screen">
@@ -33,16 +30,6 @@ export function TodayScreen() {
         <span className={plan.strength ? 'chip accent' : 'chip'}>{plan.strength ? 'Силовой день' : 'Без силовой'}</span>
         <span className="chip">{level.num} · {level.short}</span>
         <span className="chip">Неделя {levelWeek(settings)}</span>
-      </div>
-      <div className="card">
-        <div className="row between" style={{ marginBottom: 8 }}>
-          <span className="small muted">Месяц {month} из 12</span>
-          <span className="bold">{pct}%</span>
-        </div>
-        <div className="pbar">
-          <div className="fill" style={{ width: `${pct}%` }} />
-          {levels.slice(1).map((l) => <div key={l.id} className="tick" style={{ left: `${(l.span[0] / 12) * 100}%` }} />)}
-        </div>
       </div>
 
       <InstallHint />

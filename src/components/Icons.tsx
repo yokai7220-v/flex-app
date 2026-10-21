@@ -15,8 +15,8 @@ export const IconSettings = () => (
 export const IconBack = () => (
   <svg {...s} width={20} height={20} viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg>
 )
-export const IconCheck = () => (
-  <svg {...s} width={16} height={16} strokeWidth={2.6} viewBox="0 0 24 24"><path d="M5 12l5 5L20 7" /></svg>
+export const IconCheck = ({ size = 16 }: { size?: number }) => (
+  <svg {...s} width={size} height={size} strokeWidth={2.6} viewBox="0 0 24 24"><path d="M5 12l5 5L20 7" /></svg>
 )
 export const IconPlus = () => (
   <svg {...s} width={20} height={20} viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>

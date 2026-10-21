@@ -23,7 +23,6 @@ export type Level = {
   short: string
   title: string
   months: string
-  span: [number, number]
   goal: string
   heavyPerWeek: number
   rotation: ('A' | 'B' | 'C')[]
@@ -103,7 +102,6 @@ export const levels: Level[] = [
     short: 'Basic',
     title: 'Basic',
     months: 'месяцы 1–3',
-    span: [0, 3],
     goal: 'Basic по Меррику — базовая гибкость: пройти его 3 базовых теста, научиться терпеть ощущение растяжки, освоить PNF и работу с весом.',
     heavyPerWeek: 3,
     rotation: ['A', 'B', 'A'],
@@ -181,7 +179,6 @@ export const levels: Level[] = [
     short: 'Basic+',
     title: 'Basic+',
     months: 'месяцы 3–5',
-    span: [3, 5],
     goal: 'Basic+ по Меррику — сила и контроль в позициях, похожих на шпагаты, но с согнутыми ногами.',
     heavyPerWeek: 3,
     rotation: ['A', 'B', 'A'],
@@ -273,7 +270,6 @@ export const levels: Level[] = [
     short: 'Intermediate',
     title: 'Intermediate',
     months: 'месяцы 5–9',
-    span: [5, 9],
     goal: 'Intermediate по Меррику — средний уровень, активный контроль в конце амплитуды. Три цели по кругу: продольный шпагат, pancake с подготовкой поперечного, плечи и мост.',
     heavyPerWeek: 4,
     rotation: ['A', 'B', 'C'],
@@ -360,7 +356,6 @@ export const levels: Level[] = [
     short: 'Advanced',
     title: 'Advanced',
     months: 'месяцы 9–12',
-    span: [9, 12],
     goal: 'Advanced по Меррику — продвинутый уровень, полные позиции. Поперечный шпагат — приоритет, продольный — дожать или поддерживать, мост — к полному.',
     heavyPerWeek: 4,
     rotation: ['A', 'B', 'A', 'C'],

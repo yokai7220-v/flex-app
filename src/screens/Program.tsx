@@ -3,10 +3,12 @@ import { Seg, Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
 import { levels, theory, type Level, type Routine } from '../data/program'
 import { human, today } from '../lib/date'
-import { programStart } from '../lib/schedule'
 import { kindChip, kindLabel } from '../lib/labels'
 import { useNav } from '../nav'
 import { updateSettings, useStore } from '../store'
+
+const levelDone = (l: Level, s: { currentLevel: string; criteria: Record<string, boolean> }) =>
+  levels.indexOf(l) < levels.findIndex((x) => x.id === s.currentLevel) || l.criteria.every((c) => s.criteria[c.id])
 
 export function ProgramScreen() {
   const { route, replace } = useNav()
@@ -20,7 +22,7 @@ export function ProgramScreen() {
         value={sel}
         onChange={(level) => replace({ tab: 'program', level })}
         options={[
-          ...levels.map((l) => ({ id: l.id, label: `${l.num} · ${l.short}`, dot: l.id === settings.currentLevel })),
+          ...levels.map((l) => ({ id: l.id, label: `${l.num} · ${l.short}`, dot: l.id === settings.currentLevel, done: levelDone(l, settings) })),
           { id: 'theory', label: 'Теория' },
         ]}
       />
@@ -49,6 +51,7 @@ function LevelView({ level }: { level: Level }) {
   const { settings } = useStore()
   const { replace } = useNav()
   const isCurrent = settings.currentLevel === level.id
+  const done = levelDone(level, settings)
   const passed = level.criteria.filter((c) => settings.criteria[c.id]).length
   const next = levels.find((l) => l.num === level.num + 1)
 
@@ -59,13 +62,13 @@ function LevelView({ level }: { level: Level }) {
       <div className="card">
         <div className="row between">
           <div className="grow">
-            <div className="bold" style={{ fontSize: 20 }}>{level.title}</div>
+            <div className="bold" style={{ fontSize: 20 }}>{level.title}{done && <span style={{ color: 'var(--accent)' }}> ✓</span>}</div>
             <div className="small muted">{level.months} · {level.heavyPerWeek} тяжёлых в неделю</div>
           </div>
           {isCurrent ? (
             <span className="chip accent">Текущий</span>
           ) : (
-            <button className="btn soft sm" onClick={() => updateSettings({ currentLevel: level.id, levelStart: today(), programStart: programStart(settings) })}>
+            <button className="btn soft sm" onClick={() => updateSettings({ currentLevel: level.id, levelStart: today() })}>
               Сделать текущим
             </button>
           )}
@@ -91,7 +94,7 @@ function LevelView({ level }: { level: Level }) {
         <div className="banner info row between">
           <span className="grow">Все критерии выполнены — можно переходить на уровень {next.num} «{next.short}».</span>
           {isCurrent && (
-            <button className="btn primary sm" onClick={() => { updateSettings({ currentLevel: next.id, levelStart: today(), programStart: programStart(settings) }); replace({ tab: 'program', level: next.id }) }}>
+            <button className="btn primary sm" onClick={() => { updateSettings({ currentLevel: next.id, levelStart: today() }); replace({ tab: 'program', level: next.id }) }}>
               Перейти
             </button>
           )}

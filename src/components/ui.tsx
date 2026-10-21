@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useNav } from '../nav'
-import { IconBack } from './Icons'
+import { IconBack, IconCheck } from './Icons'
 
 export function Top({ title, back, big, right }: { title: ReactNode; back?: boolean; big?: boolean; right?: ReactNode }) {
   const nav = useNav()
@@ -17,12 +17,13 @@ export function Top({ title, back, big, right }: { title: ReactNode; back?: bool
   )
 }
 
-export function Seg<T extends string>({ value, options, onChange }: { value: T; options: { id: T; label: string; dot?: boolean }[]; onChange: (v: T) => void }) {
+export function Seg<T extends string>({ value, options, onChange }: { value: T; options: { id: T; label: string; dot?: boolean; done?: boolean }[]; onChange: (v: T) => void }) {
   return (
     <div className="seg">
       {options.map((o) => (
         <button key={o.id} className={o.id === value ? 'on' : ''} onClick={() => onChange(o.id)}>
           {o.label}
+          {o.done && <IconCheck size={12} />}
           {o.dot && <span className="dot" />}
         </button>
       ))}
