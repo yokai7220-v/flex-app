@@ -7,7 +7,7 @@ export function BarChart({ bars: all, metric, target }: { bars: WeekBar[]; metri
   const done = values.slice(0, -1)
   const avg = done.length >= 4 ? movingAvg(done) : []
   const max = Math.max(target, ...values, 1)
-  const W = 340, H = 156, top = 18, bottom = 22, left = 4
+  const W = 340, H = 156, top = 22, bottom = 22, left = 4
   const plotH = H - top - bottom
   const step = (W - left) / Math.max(bars.length, 6)
   const y = (v: number) => top + plotH - (v / max) * plotH
@@ -33,9 +33,10 @@ export function BarChart({ bars: all, metric, target }: { bars: WeekBar[]; metri
         )
       })}
       {avg.length > 1 && (
-        <text x={left + (avg.length - 1) * step + step / 2} y={y(avg[avg.length - 1]) - 8} textAnchor="end" fontSize="10" fill="var(--text)">
-          среднее за 4 нед
-        </text>
+        <g>
+          <line x1={W - 104} x2={W - 90} y1={7} y2={7} stroke="var(--text)" strokeWidth={2} strokeLinecap="round" />
+          <text x={W} y={10} textAnchor="end" fontSize="10" fill="var(--text)">среднее за 4 нед</text>
+        </g>
       )}
       {avg.length > 1 && (
         <polyline
