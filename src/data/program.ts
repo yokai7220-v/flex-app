@@ -112,7 +112,7 @@ export const levels: Level[] = [
       {
         id: 'l1-light',
         kind: 'light',
-        title: 'Лёгкая ежедневная',
+        title: 'Всё тело',
         freq: 'каждый день',
         duration: '15–20 мин',
         intro: 'Поддерживает то, что уже наработано. Утром, вечером или после силовой.',
@@ -190,7 +190,7 @@ export const levels: Level[] = [
       {
         id: 'l2-light',
         kind: 'light',
-        title: 'Лёгкая ежедневная',
+        title: 'Всё тело',
         freq: 'каждый день',
         duration: '15–30 мин',
         intro: 'Чередуй видео выше. 2–3 раза в неделю добавляй в конец два упражнения для поперечного шпагата.',
@@ -248,7 +248,7 @@ export const levels: Level[] = [
       {
         id: 'l2-s',
         kind: 'support',
-        title: 'Поддержка наклона',
+        title: 'Наклон',
         freq: '1–2 раза в неделю, вместе с лёгкой',
         duration: '10 мин',
         steps: [
@@ -280,7 +280,7 @@ export const levels: Level[] = [
       {
         id: 'l3-light',
         kind: 'light',
-        title: 'Лёгкая ежедневная',
+        title: 'Всё тело',
         freq: 'каждый день',
         duration: '15–30 мин',
         intro: 'Как на прошлом уровне. Раз в 1–2 недели замени её на рутину подлиннее.',
@@ -364,7 +364,7 @@ export const levels: Level[] = [
       {
         id: 'l4-light',
         kind: 'light',
-        title: 'Лёгкая ежедневная',
+        title: 'Всё тело',
         freq: 'каждый день',
         duration: '15–30 мин',
         steps: [

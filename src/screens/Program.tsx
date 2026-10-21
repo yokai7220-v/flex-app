@@ -97,10 +97,11 @@ function LevelView({ level }: { level: Level }) {
   )
 }
 
-export function RoutineCard({ r, right }: { r: Routine; right?: React.ReactNode }) {
+export function RoutineCard({ r, right, hideFreq }: { r: Routine; right?: React.ReactNode; hideFreq?: boolean }) {
   const { go, route } = useNav()
   const { logs } = useStore()
   const last = logs.find((l) => l.routineId === r.id)
+  const meta = [hideFreq ? '' : r.freq, last ? `последний раз ${human(last.date)}` : ''].filter(Boolean).join(' · ')
   return (
     <div className="card tap" onClick={() => go({ tab: route.tab, routine: r.id })}>
       <div className="row">
@@ -110,11 +111,7 @@ export function RoutineCard({ r, right }: { r: Routine; right?: React.ReactNode 
             <span className="tiny muted">{r.duration}</span>
           </div>
           <div className="bold wrap">{r.title}</div>
-          {(r.freq || last) && (
-            <div className="small muted">
-              {[r.freq, last ? `последний раз ${human(last.date)}` : ''].filter(Boolean).join(' · ')}
-            </div>
-          )}
+          {meta && <div className="small muted">{meta}</div>}
         </div>
         {right ?? <IconChevron />}
       </div>

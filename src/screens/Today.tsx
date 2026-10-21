@@ -34,7 +34,7 @@ export function TodayScreen() {
       </div>
 
       <div className="section-title">Каждый день</div>
-      <RoutineCard r={light} right={<CheckButton routine={light} />} />
+      <RoutineCard r={light} right={<CheckButton routine={light} />} hideFreq />
 
       <div className="section-title">
         Тяжёлая · {plan.weekCount} из {level.heavyPerWeek} за неделю
