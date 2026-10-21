@@ -75,7 +75,7 @@ function StatsView() {
       <Metric label="Тяжёлая" unit={perWeek('раз', 'раза', 'раз')} target={target} w7={w7} w30={w30} pick={(s) => s.heavyPerWeek} />
       <Metric label="Выполнение плана" w7={w7} w30={w30} pick={(s) => s.adherence} pct />
 
-      <div className="section-title">По неделям · 12 недель</div>
+      <div className="section-title">По неделям</div>
       <div className="card">
         <Seg
           value={metric}
