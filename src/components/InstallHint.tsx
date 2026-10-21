@@ -32,7 +32,7 @@ export function InstallHint() {
           ✕
         </button>
       </div>
-      <div className="small muted" style={{ marginBottom: 8 }}>Так приложение работает без интернета, а данные хранятся в телефоне.</div>
+      <div className="small muted" style={{ marginBottom: 8 }}>Без установки браузер может стереть данные, если долго не открывать приложение.</div>
       <InstallSteps />
     </div>
   )
