@@ -213,7 +213,7 @@ a { color: var(--accent); }
   place-items: center;
   color: var(--muted);
 }
-.steps .dose { color: var(--accent); font-size: 14px; font-weight: 600; }
+.steps .dose { color: #5a5a54; font-size: 14px; font-weight: 500; }
 
 .video {
   display: flex;
