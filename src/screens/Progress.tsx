@@ -3,7 +3,7 @@ import { BarChart } from '../components/BarChart'
 import { MonthCalendar } from '../components/MonthCalendar'
 import { Seg, Sheet, Top } from '../components/ui'
 import { findLevel, findRoutine, testRoutine } from '../data/program'
-import { human, type DateStr } from '../lib/date'
+import { human, plural, type DateStr } from '../lib/date'
 import { kindLabel } from '../lib/labels'
 import { weekBars, windowStats, type WindowStats } from '../lib/stats'
 import { useNav } from '../nav'
@@ -11,7 +11,7 @@ import { removeLog, useStore } from '../store'
 import { PhotosView } from './Photos'
 import { RoutineDetail } from './RoutineDetail'
 
-const fmt = (n: number) => n.toFixed(1).replace('.', ',')
+const fmt = (n: number) => (Number.isInteger(+n.toFixed(1)) ? String(Math.round(n)) : n.toFixed(1).replace('.', ','))
 
 export function ProgressScreen() {
   const { route, replace } = useNav()
@@ -34,28 +34,27 @@ export function ProgressScreen() {
   )
 }
 
-function Metric({ label, unit, target, w7, w30, pick, pct }: { label: string; unit: string; target?: number; w7: WindowStats; w30: WindowStats; pick: (s: WindowStats) => number; pct?: boolean }) {
+function Metric({ label, unit, target, w7, w30, pick, pct }: { label: string; unit?: (n: number) => string; target?: number; w7: WindowStats; w30: WindowStats; pick: (s: WindowStats) => number; pct?: boolean }) {
   const show = (s: WindowStats) => (pct ? `${Math.round(pick(s) * 100)}%` : fmt(pick(s)))
   return (
     <div className="card">
       <div className="row between">
         <div className="bold">{label}</div>
-        {target !== undefined && <span className="tiny muted">цель {target} {unit}</span>}
+        {target !== undefined && <span className="tiny muted">цель {target}</span>}
       </div>
-      <div className="row" style={{ marginTop: 8, gap: 0 }}>
-        {[w7, w30].map((s, i) => (
-          <div key={i} className="grow">
-            <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.02em', color: i === 0 ? 'var(--text)' : 'var(--muted)' }}>
-              {show(s)}
-              {!pct && <span className="small muted" style={{ fontWeight: 500 }}> {unit}</span>}
-            </div>
-            <div className="tiny muted">{i === 0 ? 'за 7 дней' : `за ${s.days < 30 ? `${s.days} дн (с начала)` : '30 дней'}`}</div>
-          </div>
-        ))}
+      <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.02em', marginTop: 4 }}>
+        {show(w7)}
+        {unit && <span className="small muted" style={{ fontWeight: 500, letterSpacing: 0 }}> {unit(pick(w7))}</span>}
+      </div>
+      <div className="row between small muted">
+        <span>за 7 дней</span>
+        <span>за {w30.days} {plural(w30.days, 'день', 'дня', 'дней')}: {show(w30)}</span>
       </div>
     </div>
   )
 }
+
+const perWeek = (one: string, few: string, many: string) => (n: number) => `${Number.isInteger(+n.toFixed(1)) ? plural(Math.round(n), one, few, many) : few} в неделю`
 
 function StatsView() {
   const { logs, settings } = useStore()
@@ -72,9 +71,9 @@ function StatsView() {
 
   return (
     <>
-      <Metric label="Лёгкая" unit="дн/нед" target={7} w7={w7} w30={w30} pick={(s) => s.lightPerWeek} />
-      <Metric label="Тяжёлая" unit="в нед" target={target} w7={w7} w30={w30} pick={(s) => s.heavyPerWeek} />
-      <Metric label="Выполнение плана" unit="" w7={w7} w30={w30} pick={(s) => s.adherence} pct />
+      <Metric label="Лёгкая" unit={perWeek('день', 'дня', 'дней')} target={7} w7={w7} w30={w30} pick={(s) => s.lightPerWeek} />
+      <Metric label="Тяжёлая" unit={perWeek('раз', 'раза', 'раз')} target={target} w7={w7} w30={w30} pick={(s) => s.heavyPerWeek} />
+      <Metric label="Выполнение плана" w7={w7} w30={w30} pick={(s) => s.adherence} pct />
 
       <div className="section-title">По неделям · 12 недель</div>
       <div className="card">
