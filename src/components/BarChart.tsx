@@ -24,13 +24,18 @@ export function BarChart({ bars, metric, target }: { bars: WeekBar[]; metric: 'l
             {!b.before && <rect x={x} y={y(v)} width={bw} height={Math.max(0, top + plotH - y(v))} rx={4} fill="var(--accent)" opacity={b.partial ? 0.35 : 0.85} />}
             {v === 0 && <rect x={x} y={top + plotH - 2} width={bw} height={2} rx={1} fill="var(--line)" />}
             {(i % 3 === 0 || i === bars.length - 1) && (
-              <text x={x + bw / 2} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--muted)">
-                {parse(b.start).getDate()}.{String(parse(b.start).getMonth() + 1).padStart(2, '0')}
+              <text x={b.partial ? x + bw : x + bw / 2} y={H - 6} textAnchor={b.partial ? 'end' : 'middle'} fontSize="10" fill="var(--muted)">
+                {b.partial ? 'сейчас' : `${parse(b.start).getDate()}.${String(parse(b.start).getMonth() + 1).padStart(2, '0')}`}
               </text>
             )}
           </g>
         )
       })}
+      {avg.length > 1 && (
+        <text x={left + (avg.length - 1 + firstActive) * step + step / 2} y={y(avg[avg.length - 1]) - 8} textAnchor="end" fontSize="10" fill="var(--text)">
+          среднее за 4 нед
+        </text>
+      )}
       {avg.length > 1 && (
         <polyline
           points={avg.map((v, i) => `${left + (i + firstActive) * step + step / 2},${y(v)}`).join(' ')}

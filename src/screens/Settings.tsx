@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { BackupCard } from '../components/BackupCard'
 import { InstallSteps, isStandalone } from '../components/InstallHint'
 import { Seg, Top } from '../components/ui'
@@ -9,22 +10,26 @@ function WeekPreview() {
   const { settings } = useStore()
   const start = weekStart(today())
   const days = Array.from({ length: 7 }, (_, i) => addDays(start, i))
+  const rows = [
+    { label: 'Силовая', on: (d: string) => isStrengthDay(settings, d), color: 'var(--text)' },
+    { label: 'Тяжёлая', on: (d: string) => isHeavyDay(settings, d), color: 'var(--accent)' },
+  ]
   return (
-    <div style={{ marginBottom: 12 }}>
-      <div className="weekdays">
-        {days.map((d, i) => {
-          const str = isStrengthDay(settings, d)
-          const heavy = isHeavyDay(settings, d)
-          return (
-            <div key={d} style={{ flex: 1, textAlign: 'center', borderRadius: 10, padding: '8px 0', background: str ? 'var(--text)' : 'var(--bg)', color: str ? '#fff' : 'var(--muted)', outline: d === today() ? '2px solid var(--accent)' : 'none' }}>
-              <div className="tiny bold">{WEEKDAYS[i]}</div>
-              <div className="tiny">{parse(d).getDate()}</div>
-              <div style={{ height: 6, marginTop: 2 }}>{heavy && <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: 3, background: 'var(--accent)' }} />}</div>
-            </div>
-          )
-        })}
-      </div>
-      <div className="tiny muted" style={{ marginTop: 6 }}>Тёмные — силовые. Точка — день для тяжёлой.</div>
+    <div className="week-grid">
+      <span />
+      {days.map((d, i) => (
+        <span key={d} className={d === today() ? 'today' : undefined}>
+          {WEEKDAYS[i]}
+          <br />
+          {parse(d).getDate()}
+        </span>
+      ))}
+      {rows.map((r) => (
+        <Fragment key={r.label}>
+          <span className="label">{r.label}</span>
+          {days.map((d) => <span key={d}>{r.on(d) && <i style={{ background: r.color }} />}</span>)}
+        </Fragment>
+      ))}
     </div>
   )
 }
