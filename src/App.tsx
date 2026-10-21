@@ -1,6 +1,7 @@
 import { BottomNav } from './components/BottomNav'
 import { useNav } from './nav'
 import { ProgramScreen } from './screens/Program'
+import { ProgressScreen } from './screens/Progress'
 import { RoutineDetail } from './screens/RoutineDetail'
 import { SettingsScreen } from './screens/Settings'
 import { TodayScreen } from './screens/Today'
@@ -14,10 +15,10 @@ function Screen() {
       return <ProgramScreen />
     case 'settings':
       return <SettingsScreen />
-    case 'today':
-      return <TodayScreen />
+    case 'progress':
+      return <ProgressScreen />
     default:
-      return <div className="screen"><div className="top"><h1>{route.tab}</h1></div></div>
+      return <TodayScreen />
   }
 }
 
