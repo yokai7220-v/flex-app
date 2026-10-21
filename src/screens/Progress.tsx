@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { BarChart } from '../components/BarChart'
 import { MonthCalendar } from '../components/MonthCalendar'
 import { Seg, Sheet, Top } from '../components/ui'
-import { findLevel, findRoutine } from '../data/program'
+import { findLevel, findRoutine, testRoutine } from '../data/program'
 import { human, type DateStr } from '../lib/date'
 import { kindLabel } from '../lib/labels'
 import { weekBars, windowStats, type WindowStats } from '../lib/stats'
 import { useNav } from '../nav'
 import { removeLog, useStore } from '../store'
 import { PhotosView } from './Photos'
+import { RoutineCard } from './Program'
 
 const fmt = (n: number) => n.toFixed(1).replace('.', ',')
 
@@ -62,13 +63,20 @@ function StatsView() {
   const w7 = windowStats(logs, 7, target)
   const w30 = windowStats(logs, 30, target)
 
-  if (!w7 || !w30)
-    return <div className="card empty">Отметь первую рутину — здесь появятся средние за неделю и за месяц. Никаких «дней подряд»: пропуск ничего не обнуляет.</div>
-
   const dayLogs = day ? logs.filter((l) => l.date === day) : []
+
+  if (!w7 || !w30)
+    return (
+      <>
+        <RoutineCard r={testRoutine} />
+        <div className="card empty">Отметь первую рутину — здесь появятся средние за неделю и за месяц. Никаких «дней подряд»: пропуск ничего не обнуляет.</div>
+      </>
+    )
 
   return (
     <>
+      <RoutineCard r={testRoutine} />
+
       <Metric label="Лёгкая работа" unit="дн/нед" target={7} w7={w7} w30={w30} pick={(s) => s.lightPerWeek} />
       <Metric label="Тяжёлые сессии" unit="в нед" target={target} w7={w7} w30={w30} pick={(s) => s.heavyPerWeek} />
       <Metric label="Выполнение плана" unit="" w7={w7} w30={w30} pick={(s) => s.adherence} pct />

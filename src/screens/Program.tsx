@@ -1,7 +1,7 @@
 import { IconCheck, IconChevron } from '../components/Icons'
 import { Seg, Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
-import { levels, testRoutine, theory, type Level, type Routine } from '../data/program'
+import { levels, theory, type Level, type Routine } from '../data/program'
 import { human, today } from '../lib/date'
 import { kindChip, kindLabel } from '../lib/labels'
 import { useNav } from '../nav'
@@ -19,27 +19,12 @@ export function ProgramScreen() {
         value={sel}
         onChange={(level) => replace({ tab: 'program', level })}
         options={[
-          { id: 'l0', label: 'Замер' },
           ...levels.map((l) => ({ id: l.id, label: `${l.num} · ${l.short}`, dot: l.id === settings.currentLevel })),
           { id: 'theory', label: 'Теория' },
         ]}
       />
-      {sel === 'l0' ? <TestView /> : sel === 'theory' ? <TheoryView /> : <LevelView level={levels.find((l) => l.id === sel)!} />}
+      {sel === 'theory' ? <TheoryView /> : <LevelView level={levels.find((l) => l.id === sel)!} />}
     </div>
-  )
-}
-
-function TestView() {
-  return (
-    <>
-      <div className="card">
-        <div className="bold">Неделя 0 и каждые 4 недели</div>
-        <div className="small muted" style={{ marginTop: 4 }}>
-          Замер покажет прогресс, который не видно день ко дню. Три базовых теста Меррика: присед, наклон, «ангел» у стены — плюс фото позиций.
-        </div>
-      </div>
-      <RoutineCard r={testRoutine} />
-    </>
   )
 }
 
