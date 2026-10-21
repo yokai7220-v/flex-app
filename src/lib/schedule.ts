@@ -2,6 +2,13 @@ import type { Level, Routine } from '../data/program'
 import type { Log, Photo, Settings } from '../db'
 import { addDays, diffDays, today, weekStart, weekdayIdx, type DateStr } from './date'
 
+const WEEKDAYS_ACC = ['в понедельник', 'во вторник', 'в среду', 'в четверг', 'в пятницу', 'в субботу', 'в воскресенье']
+
+function nextHeavyDay(s: Settings, d: DateStr) {
+  const n = [1, 2, 3, 4, 5, 6, 7].find((i) => isHeavyDay(s, addDays(d, i))) ?? 1
+  return n === 1 ? 'завтра' : n === 2 ? 'послезавтра' : WEEKDAYS_ACC[weekdayIdx(addDays(d, n))]
+}
+
 export const isStrengthDay = (s: Settings, d: DateStr) =>
   s.strengthMode === 'alternate' ? ((diffDays(d, s.alternateStart) % 2) + 2) % 2 === 0 : s.weekdays.includes(weekdayIdx(d))
 
@@ -52,7 +59,7 @@ export function planToday(level: Level, s: Settings, logs: Log[], d: DateStr = t
   }
   const next = nextHeavy(level, logs)
   if (weekCount >= level.heavyPerWeek)
-    return { strength, heavyDay, weekCount, heavyDone: false, tomorrowStrength, reason: `Недельная цель выполнена — ${weekCount} из ${level.heavyPerWeek}. Сегодня только лёгкая.` }
+    return { strength, heavyDay, weekCount, heavyDone: false, tomorrowStrength, reason: 'Тяжёлые на этой неделе сделаны.' }
   if (!heavyDay)
     return {
       strength,
@@ -60,7 +67,7 @@ export function planToday(level: Level, s: Settings, logs: Log[], d: DateStr = t
       weekCount,
       heavyDone: false,
       tomorrowStrength,
-      reason: s.heavyMode === 'between' ? 'Сегодня силовая, тяжёлая в дни между силовыми.' : 'Сегодня без силовой, тяжёлая после силовой.',
+      reason: `Сегодня без тяжёлой, следующая ${nextHeavyDay(s, d)}.`,
     }
   return { strength, heavyDay, weekCount, heavy: next, heavyDone: false, tomorrowStrength }
 }

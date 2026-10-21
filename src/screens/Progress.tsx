@@ -67,7 +67,7 @@ function StatsView() {
   const dayLogs = day ? logs.filter((l) => l.date === day) : []
 
   if (!w7 || !w30)
-    return <div className="card empty">Отметь первую рутину — здесь появятся средние за неделю и за месяц. Никаких «дней подряд»: пропуск ничего не обнуляет.</div>
+    return <div className="card empty">Здесь будут средние за неделю и месяц. Пока нет отметок.</div>
 
   return (
     <>

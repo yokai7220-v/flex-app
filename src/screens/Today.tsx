@@ -34,17 +34,17 @@ export function TodayScreen() {
       <InstallHint />
       {isDeload(settings) && (
         <div className="banner">
-          <b>Разгрузочная неделя.</b> В тяжёлых вдвое меньше подходов, лёгкая — как обычно.
+          <b>Разгрузочная неделя.</b> В тяжёлых вдвое меньше подходов, лёгкая как обычно.
         </div>
       )}
       {measureDue && (
         <div className="banner info" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'progress', sub: 'measure' })}>
-          {measured ? `Последний замер ${human(measured)} — пора замериться и сделать фото →` : 'Сделай первый замер и фото, чтобы было с чем сравнивать →'}
+          {measured ? `Последний замер ${human(measured)}. Пора замериться и сделать фото →` : 'Сделай первый замер и фото, чтобы было с чем сравнивать →'}
         </div>
       )}
       {backupDue && (
         <div className="banner" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'settings' })}>
-          {settings.lastBackup ? 'Больше месяца без бэкапа' : 'Бэкапа ещё не было'} — фото хранятся только в телефоне. Сохранить →
+          {settings.lastBackup ? 'Больше месяца без бэкапа' : 'Бэкапа ещё не было'}. Фото есть только в этом телефоне. Сохранить →
         </div>
       )}
 
@@ -60,8 +60,8 @@ export function TodayScreen() {
           {!plan.heavyDone && (
             <div className="small muted" style={{ margin: '0 4px 10px' }}>
               {settings.heavyMode === 'between'
-                ? `Начни с разминки 5–10 мин — она уже добавлена в рутину.${plan.tomorrowStrength ? ' Завтра силовая. Если это ноги, сегодня лучше тяжёлая на плечи.' : ''}`
-                : 'Сразу после силовой, пока тело тёплое. Не перед ней.'}
+                ? `Разминка 5–10 мин уже добавлена в начало.${plan.tomorrowStrength ? ' Завтра силовая. Если это ноги, сегодня лучше тяжёлая на плечи.' : ''}`
+                : 'Сразу после силовой, не перед ней.'}
             </div>
           )}
         </>
@@ -69,7 +69,7 @@ export function TodayScreen() {
         <div className="card">
           <div className="small">{plan.reason}</div>
           <button className="btn soft sm" style={{ marginTop: 10 }} onClick={() => go({ tab: 'today', routine: nextHeavy(level, logs).id })}>
-            Всё равно сделать: «{nextHeavy(level, logs).title}»
+            Сделать сегодня «{nextHeavy(level, logs).title}»
           </button>
         </div>
       )}

@@ -53,7 +53,7 @@ export function SettingsScreen() {
         />
         {s.strengthMode === 'alternate' ? (
           <label className="field">
-            <span>Дата одной из силовых (от неё считается «через день»)</span>
+            <span>Последняя силовая</span>
             <input type="date" value={s.alternateStart} onChange={(e) => e.target.value && updateSettings({ alternateStart: e.target.value })} />
           </label>
         ) : (
@@ -80,15 +80,15 @@ export function SettingsScreen() {
         <WeekPreview />
         <div className="small muted">
           {s.heavyMode === 'between'
-            ? 'Тяжёлая ставится в дни без силовой. В начало автоматически добавляется разминка 5–10 мин.'
-            : 'Тяжёлая ставится в силовые дни, 15–30 мин сразу после тренировки, отдельная разминка не нужна.'}
+            ? 'Тяжёлая в дни без силовой, с разминкой 5–10 мин в начале.'
+            : 'Тяжёлая в силовые дни, 15–30 мин сразу после тренировки, без отдельной разминки.'}
         </div>
       </div>
 
-      <div className="section-title">Текущий уровень</div>
+      <div className="section-title">Уровень</div>
       <div className="card">
         <label className="field" style={{ marginBottom: 0 }}>
-          <span>Дата начала уровня (для разгрузочных недель)</span>
+          <span>Начало текущего уровня. От него каждая 4-я неделя разгрузочная</span>
           <input type="date" value={s.levelStart} max={today()} onChange={(e) => e.target.value && updateSettings({ levelStart: e.target.value })} />
         </label>
       </div>
@@ -98,7 +98,7 @@ export function SettingsScreen() {
 
       <div className="section-title">Установка</div>
       <div className="card">
-        {isStandalone() ? <div className="small">Приложение установлено на главный экран и работает без интернета.</div> : <InstallSteps />}
+        {isStandalone() ? <div className="small">Установлено на главный экран.</div> : <InstallSteps />}
       </div>
     </div>
   )

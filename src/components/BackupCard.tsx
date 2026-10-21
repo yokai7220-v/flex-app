@@ -33,7 +33,7 @@ export function BackupCard() {
         {logs.length} {plural(logs.length, 'отметка', 'отметки', 'отметок')} · {photos.length} фото · ~{approxSizeMB(photos).toFixed(1).replace('.', ',')} МБ
       </div>
       <div className="small muted" style={{ marginBottom: 12 }}>
-        Последний бэкап: {settings.lastBackup ? human(toStr(new Date(settings.lastBackup))) : 'не было'}. Всё хранится только в этом телефоне — удалишь без бэкапа, и данные пропадут.
+        Последний бэкап: {settings.lastBackup ? human(toStr(new Date(settings.lastBackup))) : 'не было'}. Данные есть только в этом телефоне. Если удалить приложение без бэкапа, их не вернуть.
       </div>
       {ready ? (
         <button
@@ -58,7 +58,7 @@ export function BackupCard() {
               const file = await buildBackupFile()
               if (canShareFile(file)) {
                 setReady(file)
-                return 'Файл готов — нажми «Поделиться» и выбери, куда сохранить.'
+                return 'Файл готов. Нажми «Поделиться» и выбери, куда сохранить.'
               }
               await deliverBackup(file)
               return 'Файл скачан.'

@@ -47,7 +47,7 @@ export function PhotoDetail({ id }: { id: string }) {
       )}
       {confirm && (
         <Sheet title="Удалить фото?" onClose={() => setConfirm(false)}>
-          <p className="small muted" style={{ marginTop: 0 }}>Фото хранится только в этом телефоне — после удаления его не вернуть (если нет бэкапа).</p>
+          <p className="small muted" style={{ marginTop: 0 }}>Фото есть только в этом телефоне. Если его нет в бэкапе, вернуть не получится.</p>
           <div className="row" style={{ gap: 8 }}>
             <button className="btn grow" onClick={() => setConfirm(false)}>Отмена</button>
             <button

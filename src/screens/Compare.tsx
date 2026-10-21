@@ -26,6 +26,7 @@ export function CompareScreen() {
   const chosen = sel.map((id) => photos.find((p) => p.id === id)).filter((p): p is Photo => !!p)
   const [before, after] = [...chosen].sort((a, b) => a.date.localeCompare(b.date) || a.createdAt - b.createdAt)
   const gap = before && after ? diffDays(after.date, before.date) : 0
+  const labels: [string, string] = before && after ? [`${human(before.date)} · ${coldWarm(before)}`, `${human(after.date)} · ${coldWarm(after)}`] : ['', '']
 
   return (
     <div className="screen">
@@ -46,22 +47,15 @@ export function CompareScreen() {
                   { id: 'side', label: 'Рядом' },
                 ]}
               />
-              {mode === 'slider' ? (
-                <CompareSlider before={before.blob} after={after.blob} />
-              ) : (
-                <SideBySide before={before.blob} after={after.blob} labels={[`${human(before.date)} · ${coldWarm(before)}`, `${human(after.date)} · ${coldWarm(after)}`]} />
-              )}
+              {mode === 'slider' ? <CompareSlider before={before.blob} after={after.blob} labels={labels} /> : <SideBySide before={before.blob} after={after.blob} labels={labels} />}
               <div className="card small" style={{ marginTop: 10 }}>
-                <b>До:</b> {human(before.date)}, {coldWarm(before)} · <b>После:</b> {human(after.date)}, {coldWarm(after)}
-                <div className="muted">
-                  {gap === 0 ? 'Один и тот же день' : `Разница ${gap} ${plural(gap, 'день', 'дня', 'дней')}`}
-                  {before.state !== after.state ? ' · разное состояние (холодный/разогретый) — сравнение нечестное' : ''}
-                </div>
+                {gap === 0 ? 'Один и тот же день.' : `${gap} ${plural(gap, 'день', 'дня', 'дней')} между фото.`}
+                {before.state !== after.state && <div className="muted">Одно фото до разминки, другое после, сравнение неточное.</div>}
               </div>
             </>
           ) : (
             <div className="card small muted">
-              {ofPose.length < 2 ? 'У этой позы пока одно фото — добавь ещё одно, чтобы сравнить.' : 'Выбери два фото ниже.'}
+              {ofPose.length < 2 ? 'У этой позы одно фото. Для сравнения нужно второе.' : 'Выбери два фото ниже.'}
             </div>
           )}
 

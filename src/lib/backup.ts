@@ -54,7 +54,7 @@ export async function readBackup(file: File) {
   try {
     data = JSON.parse(await file.text())
   } catch {
-    throw new Error('Это не файл бэкапа — не получилось прочитать.')
+    throw new Error('Не получилось прочитать файл. Это не бэкап.')
   }
   if (data?.app !== 'flex-app' || !Array.isArray(data.logs) || !Array.isArray(data.photos)) throw new Error('Это не файл бэкапа этого приложения.')
   return data
