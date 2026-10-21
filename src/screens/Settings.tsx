@@ -1,3 +1,4 @@
+import { BackupCard } from '../components/BackupCard'
 import { Seg, Top } from '../components/ui'
 import { updateSettings, useStore } from '../store'
 import { WEEKDAYS, addDays, parse, today, weekStart } from '../lib/date'
@@ -90,6 +91,9 @@ export function SettingsScreen() {
           <input type="date" value={s.levelStart} max={today()} onChange={(e) => e.target.value && updateSettings({ levelStart: e.target.value })} />
         </label>
       </div>
+
+      <div className="section-title">Данные и бэкап</div>
+      <BackupCard />
     </div>
   )
 }
