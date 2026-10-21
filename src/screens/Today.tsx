@@ -20,6 +20,7 @@ export function TodayScreen() {
   const plan = planToday(level, settings, logs, t)
   const measured = lastMeasure(logs, photos)
   const measureDue = !measured || diffDays(t, measured) > 28
+  const deload = isDeload(settings)
   const backupDue = photos.length > 0 && (!settings.lastBackup || Date.now() - settings.lastBackup > 30 * DAY)
 
   return (
@@ -29,24 +30,8 @@ export function TodayScreen() {
       <div className="row" style={{ gap: 6, flexWrap: 'wrap', margin: '0 4px 12px' }}>
         <span className={plan.strength ? 'chip accent' : 'chip'}>{plan.strength ? 'Силовой день' : 'Без силовой'}</span>
         <span className="chip">{level.short}</span>
+        {deload && <span className="chip warn">Разгрузочная неделя</span>}
       </div>
-
-      <InstallHint />
-      {isDeload(settings) && (
-        <div className="banner">
-          <b>Разгрузочная неделя.</b> В тяжёлых вдвое меньше подходов, лёгкая как обычно.
-        </div>
-      )}
-      {measureDue && (
-        <div className="banner info" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'progress', sub: 'measure' })}>
-          {measured ? `Последний замер ${human(measured)}. Пора замериться и сделать фото →` : 'Сделай первый замер и фото, чтобы было с чем сравнивать →'}
-        </div>
-      )}
-      {backupDue && (
-        <div className="banner" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'settings' })}>
-          {settings.lastBackup ? 'Больше месяца без бэкапа' : 'Бэкапа ещё не было'}. Фото есть только в этом телефоне. Сохранить →
-        </div>
-      )}
 
       <div className="section-title">Каждый день</div>
       <RoutineCard r={light} right={<CheckButton routine={light} />} />
@@ -59,6 +44,7 @@ export function TodayScreen() {
           <RoutineCard r={plan.heavy} right={<CheckButton routine={plan.heavy} />} />
           {!plan.heavyDone && (
             <div className="small muted" style={{ margin: '0 4px 10px' }}>
+              {deload && 'Разгрузочная неделя: вдвое меньше подходов. '}
               {settings.heavyMode === 'between'
                 ? `Разминка 5–10 мин уже добавлена в начало.${plan.tomorrowStrength ? ' Завтра силовая. Если это ноги, сегодня лучше тяжёлая на плечи.' : ''}`
                 : 'Сразу после силовой, не перед ней.'}
@@ -80,6 +66,20 @@ export function TodayScreen() {
           {support.map((r) => <RoutineCard key={r.id} r={r} right={<CheckButton routine={r} />} />)}
         </>
       )}
+
+      <div style={{ marginTop: 24 }}>
+        {measureDue && (
+          <div className="banner info" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'progress', sub: 'measure' })}>
+            {measured ? `Последний замер ${human(measured)}. Пора замериться и сделать фото →` : 'Сделай первый замер и фото, чтобы было с чем сравнивать →'}
+          </div>
+        )}
+        {backupDue && (
+          <div className="banner" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'settings' })}>
+            {settings.lastBackup ? 'Больше месяца без бэкапа' : 'Бэкапа ещё не было'}. Фото есть только в этом телефоне. Сохранить →
+          </div>
+        )}
+        <InstallHint />
+      </div>
     </div>
   )
 }
