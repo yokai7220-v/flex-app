@@ -11,6 +11,8 @@ async (page) => {
 
   async function seed(state) {
     await page.evaluate(async (state) => {
+      if (navigator.serviceWorker) for (const r of await navigator.serviceWorker.getRegistrations()) await r.unregister()
+      if (window.caches) for (const k of await caches.keys()) await caches.delete(k)
       const pad = (n) => String(n).padStart(2, '0')
       const ds = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
       const daysAgo = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return ds(d) }
@@ -73,7 +75,7 @@ async (page) => {
     }, state)
   }
 
-  const tab = async (name) => { await page.locator('.tabbar button', { hasText: name }).click(); await page.waitForTimeout(350) }
+  const tab = async (name) => { await page.locator('.tabbar button', { hasText: name }).dispatchEvent('click'); await page.waitForTimeout(350) }
   const shots = []
   for (const size of SIZES) {
     await page.setViewportSize({ width: size.width, height: size.height })
@@ -86,16 +88,17 @@ async (page) => {
       await tab('Сегодня'); await snap('1-today')
       await tab('Программа'); await snap('2-program')
       await tab('Прогресс'); await snap('3-stats')
-      await page.locator('.seg button', { hasText: 'Фото' }).click(); await page.waitForTimeout(500); await snap('4-photos')
+      await page.locator('.seg button', { hasText: 'Фото' }).dispatchEvent('click'); await page.waitForTimeout(500); await snap('4-photos')
       if (state !== 'empty') {
-        await page.getByRole('button', { name: 'Сравнить' }).click(); await page.waitForTimeout(600); await snap('6-compare')
+        await page.getByRole('button', { name: 'Сравнить' }).dispatchEvent('click'); await page.waitForTimeout(600); await snap('6-compare')
         if (state === 'full') {
-          await page.locator('.seg button', { hasText: 'Рядом' }).click(); await page.waitForTimeout(400); await snap('7-compare-side')
+          await page.locator('.seg button', { hasText: 'Рядом' }).dispatchEvent('click'); await page.waitForTimeout(400); await snap('7-compare-side')
         }
         await page.goBack(); await page.waitForTimeout(300)
-        await page.locator('button:has(.chip)').first().click(); await page.waitForTimeout(500); await snap('8-photo')
+        await page.locator('button:has(.chip)').first().dispatchEvent('click'); await page.waitForTimeout(500); await snap('8-photo')
         await page.goBack(); await page.waitForTimeout(300)
       }
+      await page.locator('.seg button', { hasText: 'Замер' }).dispatchEvent('click'); await page.waitForTimeout(400); await snap('9-measure')
       await tab('Настройки'); await snap('5-settings')
     }
   }
