@@ -2,6 +2,7 @@ import { useSyncExternalStore } from 'react'
 import type { Routine } from './data/program'
 import { dbPromise, defaultSettings, uid, type Log, type Photo, type Settings } from './db'
 import type { DateStr } from './lib/date'
+import { applyAccent } from './lib/theme'
 
 export type State = {
   ready: boolean
@@ -30,17 +31,15 @@ const byDate = <T extends { date: string; createdAt: number }>(a: T, b: T) => b.
 export async function loadStore() {
   const db = await dbPromise
   const [logs, photos, saved] = await Promise.all([db.getAll('logs'), db.getAll('photos'), db.get('kv', 'settings')])
-  set({
-    ready: true,
-    logs: logs.sort(byDate),
-    photos: photos.sort(byDate),
-    settings: { ...defaultSettings(), ...(saved as Partial<Settings> | undefined) },
-  })
+  const settings = { ...defaultSettings(), ...(saved as Partial<Settings> | undefined) }
+  applyAccent(settings.accent)
+  set({ ready: true, logs: logs.sort(byDate), photos: photos.sort(byDate), settings })
   navigator.storage?.persist?.()
 }
 
 export async function updateSettings(patch: Partial<Settings>) {
   const settings = { ...state.settings, ...patch }
+  applyAccent(settings.accent)
   set({ settings })
   await (await dbPromise).put('kv', settings, 'settings')
 }
@@ -76,7 +75,9 @@ export async function replaceAll(data: { settings: Settings; logs: Log[]; photos
     tx.objectStore('kv').put(data.settings, 'settings'),
   ])
   await tx.done
-  set({ settings: { ...defaultSettings(), ...data.settings }, logs: data.logs.sort(byDate), photos: data.photos.sort(byDate) })
+  const settings = { ...defaultSettings(), ...data.settings }
+  applyAccent(settings.accent)
+  set({ settings, logs: data.logs.sort(byDate), photos: data.photos.sort(byDate) })
 }
 
 export const getState = () => state

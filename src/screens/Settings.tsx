@@ -1,10 +1,12 @@
 import { Fragment } from 'react'
 import { BackupCard } from '../components/BackupCard'
+import { IconCheck, IconPlus } from '../components/Icons'
 import { InstallSteps, isStandalone } from '../components/InstallHint'
 import { Seg, Top } from '../components/ui'
 import { updateSettings, useStore } from '../store'
 import { WEEKDAYS, addDays, parse, today, weekStart } from '../lib/date'
 import { isHeavyDay, isStrengthDay } from '../lib/schedule'
+import { ACCENT_PRESETS, readableOn } from '../lib/theme'
 
 function WeekPreview() {
   const { settings } = useStore()
@@ -36,6 +38,8 @@ function WeekPreview() {
 
 export function SettingsScreen() {
   const { settings: s } = useStore()
+  const accent = s.accent ?? '#1f7a6d'
+  const isCustom = !ACCENT_PRESETS.includes(accent)
 
   const toggleDay = (i: number) => {
     const weekdays = s.weekdays.includes(i) ? s.weekdays.filter((d) => d !== i) : [...s.weekdays, i].sort()
@@ -98,6 +102,24 @@ export function SettingsScreen() {
           <span>Начало текущего уровня. От него каждая 4-я неделя разгрузочная</span>
           <input type="date" value={s.levelStart} max={today()} onChange={(e) => e.target.value && updateSettings({ levelStart: e.target.value })} />
         </label>
+      </div>
+
+      <div className="section-title">Цвет</div>
+      <div className="card">
+        <div className="swatches">
+          {ACCENT_PRESETS.map((c) => (
+            <button key={c} className="swatch" style={{ background: c, color: readableOn(c) }} onClick={() => updateSettings({ accent: c })}>
+              {accent === c && <IconCheck />}
+            </button>
+          ))}
+          <label
+            className={isCustom ? 'swatch' : 'swatch custom'}
+            style={isCustom ? { background: accent, color: readableOn(accent) } : undefined}
+          >
+            {isCustom ? <IconCheck /> : <IconPlus />}
+            <input type="color" value={accent} onChange={(e) => updateSettings({ accent: e.target.value })} />
+          </label>
+        </div>
       </div>
 
       <div className="section-title">Данные и бэкап</div>

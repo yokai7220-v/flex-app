@@ -43,6 +43,7 @@ export type Settings = {
   weekdays: number[]
   heavyMode: 'between' | 'after'
   criteria: Record<string, boolean>
+  accent?: string
   lastBackup?: number
   installHintDismissed?: boolean
 }

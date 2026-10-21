@@ -43,7 +43,7 @@ export function MonthCalendar({ logs, onPick }: { logs: Log[]; onPick: (d: DateS
             >
               <div className="small">{Number(d.slice(8))}</div>
               <div style={{ display: 'flex', gap: 3, justifyContent: 'center', height: 6, marginTop: 2 }}>
-                {k?.light && <span style={{ width: 6, height: 6, borderRadius: 3, background: '#9fcfc6' }} />}
+                {k?.light && <span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--accent-mid)' }} />}
                 {k?.heavy && <span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--accent)' }} />}
                 {k?.test && <span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--warn)' }} />}
               </div>
@@ -52,7 +52,7 @@ export function MonthCalendar({ logs, onPick }: { logs: Log[]; onPick: (d: DateS
         })}
       </div>
       <div className="row tiny muted" style={{ gap: 12, marginTop: 8, justifyContent: 'center' }}>
-        <span className="row" style={{ gap: 4 }}><span style={{ width: 6, height: 6, borderRadius: 3, background: '#9fcfc6' }} />лёгкая</span>
+        <span className="row" style={{ gap: 4 }}><span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--accent-mid)' }} />лёгкая</span>
         <span className="row" style={{ gap: 4 }}><span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--accent)' }} />тяжёлая</span>
         <span className="row" style={{ gap: 4 }}><span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--warn)' }} />замер</span>
       </div>

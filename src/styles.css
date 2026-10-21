@@ -6,6 +6,8 @@
   --line: #ebebe6;
   --accent: #1f7a6d;
   --accent-soft: #e4f1ee;
+  --accent-mid: #9fcfc6;
+  --on-accent: #fff;
   --warn-soft: #fbf1e3;
   --warn: #9a5b12;
   --danger: #c4402f;
@@ -107,7 +109,7 @@ a { color: var(--accent); }
   min-height: 44px;
 }
 .btn:active { opacity: 0.7; }
-.btn.primary { background: var(--accent); color: #fff; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
 .btn.soft { background: var(--accent-soft); color: var(--accent); }
 .btn.danger { background: #fbe9e6; color: var(--danger); }
 .btn.block { width: 100%; }
@@ -181,7 +183,7 @@ a { color: var(--accent); }
   cursor: pointer;
   padding: 0;
 }
-.check.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.check.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
 .done-mark { color: var(--accent); font-weight: 600; font-size: 14px; }
 
@@ -307,7 +309,7 @@ a { color: var(--accent); }
   color: var(--muted);
   cursor: pointer;
 }
-.weekdays button.on { background: var(--accent); color: #fff; }
+.weekdays button.on { background: var(--accent); color: var(--on-accent); }
 
 .sheet-bg {
   position: fixed;
@@ -356,3 +358,23 @@ a { color: var(--accent); }
 }
 .toggle.on { background: var(--accent); }
 .toggle.on::after { transform: translateX(20px); }
+
+.swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+.swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+  position: relative;
+}
+.swatch.custom {
+  background: conic-gradient(#c4402f, #c47f28, #6f8a1f, #1f7a6d, #2563a8, #744fb5, #bf4791, #c4402f);
+  color: #fff;
+}
+.swatch.custom svg { filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5)); }
+.swatch input { position: absolute; width: 0; height: 0; opacity: 0; }
