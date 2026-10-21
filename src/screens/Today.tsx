@@ -1,7 +1,7 @@
 import { CheckButton } from '../components/DoneControls'
 import { InstallHint } from '../components/InstallHint'
 import { Top } from '../components/ui'
-import { findLevel, testRoutine } from '../data/program'
+import { findLevel } from '../data/program'
 import { dayLabel, diffDays, human, today } from '../lib/date'
 import { isDeload, lastMeasure, levelWeek, nextHeavy, planToday } from '../lib/schedule'
 import { useNav } from '../nav'
@@ -39,7 +39,7 @@ export function TodayScreen() {
         </div>
       )}
       {measureDue && (
-        <div className="banner info" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'today', routine: testRoutine.id })}>
+        <div className="banner info" style={{ cursor: 'pointer' }} onClick={() => go({ tab: 'progress', sub: 'measure' })}>
           {measured ? `Последний замер ${human(measured)} — пора замериться и сделать фото →` : 'Сделай первый замер и фото, чтобы было с чем сравнивать →'}
         </div>
       )}

@@ -9,25 +9,26 @@ import { weekBars, windowStats, type WindowStats } from '../lib/stats'
 import { useNav } from '../nav'
 import { removeLog, useStore } from '../store'
 import { PhotosView } from './Photos'
+import { RoutineDetail } from './RoutineDetail'
 
 const fmt = (n: number) => n.toFixed(1).replace('.', ',')
 
 export function ProgressScreen() {
-  const { route, replace, go } = useNav()
+  const { route, replace } = useNav()
   const sub = route.sub ?? 'stats'
   return (
     <div className="screen">
       <Top title="Прогресс" big />
-      <Seg<string>
+      <Seg
         value={sub}
-        onChange={(s) => (s === 'measure' ? go({ tab: 'progress', routine: testRoutine.id }) : replace({ tab: 'progress', sub: s as 'stats' | 'photos' }))}
+        onChange={(s) => replace({ tab: 'progress', sub: s })}
         options={[
           { id: 'stats', label: 'Статистика' },
           { id: 'photos', label: 'Фото' },
           { id: 'measure', label: 'Замер' },
         ]}
       />
-      {sub === 'photos' ? <PhotosView /> : <StatsView />}
+      {sub === 'photos' ? <PhotosView /> : sub === 'measure' ? <RoutineDetail id={testRoutine.id} embed /> : <StatsView />}
     </div>
   )
 }

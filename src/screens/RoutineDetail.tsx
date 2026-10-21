@@ -10,7 +10,7 @@ export function stepsFor(r: Routine, heavyMode: 'between' | 'after'): Step[] {
   return [WARMUP_STEP, ...r.steps]
 }
 
-export function RoutineDetail({ id }: { id: string }) {
+export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
   const { settings } = useStore()
   const r = findRoutine(id)
   if (!r) return <div className="screen"><Top title="Не найдено" back /></div>
@@ -18,10 +18,10 @@ export function RoutineDetail({ id }: { id: string }) {
   const steps = stepsFor(r, settings.heavyMode)
 
   return (
-    <div className="screen">
-      <Top title={r.title} back />
+    <div className={embed ? undefined : 'screen'}>
+      {!embed && <Top title={r.title} back />}
       <div className="row" style={{ gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
-        <span className={kindChip(r)}>{kindLabel(r)}</span>
+        {!embed && <span className={kindChip(r)}>{kindLabel(r)}</span>}
         {level && <span className="chip">Уровень {level.num}</span>}
         <span className="chip">{r.freq}</span>
         <span className="chip">{r.duration}</span>
