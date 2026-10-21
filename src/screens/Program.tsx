@@ -3,6 +3,7 @@ import { Seg, Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
 import { levels, theory, type Level, type Routine } from '../data/program'
 import { human, today } from '../lib/date'
+import { programStart } from '../lib/schedule'
 import { kindChip, kindLabel } from '../lib/labels'
 import { useNav } from '../nav'
 import { updateSettings, useStore } from '../store'
@@ -64,7 +65,7 @@ function LevelView({ level }: { level: Level }) {
           {isCurrent ? (
             <span className="chip accent">Текущий</span>
           ) : (
-            <button className="btn soft sm" onClick={() => updateSettings({ currentLevel: level.id, levelStart: today() })}>
+            <button className="btn soft sm" onClick={() => updateSettings({ currentLevel: level.id, levelStart: today(), programStart: programStart(settings) })}>
               Сделать текущим
             </button>
           )}
@@ -90,7 +91,7 @@ function LevelView({ level }: { level: Level }) {
         <div className="banner info row between">
           <span className="grow">Все критерии выполнены — можно переходить на уровень {next.num} «{next.short}».</span>
           {isCurrent && (
-            <button className="btn primary sm" onClick={() => { updateSettings({ currentLevel: next.id, levelStart: today() }); replace({ tab: 'program', level: next.id }) }}>
+            <button className="btn primary sm" onClick={() => { updateSettings({ currentLevel: next.id, levelStart: today(), programStart: programStart(settings) }); replace({ tab: 'program', level: next.id }) }}>
               Перейти
             </button>
           )}

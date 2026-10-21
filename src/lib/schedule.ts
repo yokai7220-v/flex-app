@@ -24,9 +24,17 @@ export const levelWeek = (s: Settings, d: DateStr = today()) => Math.max(0, Math
 
 const DAYS_PER_MONTH = 365.25 / 12
 
+export function programStart(s: Settings): DateStr {
+  if (s.programStart) return s.programStart
+  const level = findLevel(s.currentLevel)!
+  return addDays(s.levelStart, -Math.round(level.span[0] * DAYS_PER_MONTH))
+}
+
 export function programProgress(s: Settings, d: DateStr = today()): { months: number; pct: number } {
   const level = findLevel(s.currentLevel)!
-  const months = Math.max(0, level.span[0] + diffDays(d, s.levelStart) / DAYS_PER_MONTH)
+  const byLevel = level.span[0] + diffDays(d, s.levelStart) / DAYS_PER_MONTH
+  const byCalendar = diffDays(d, programStart(s)) / DAYS_PER_MONTH
+  const months = Math.max(0, Math.max(byLevel, byCalendar))
   return { months, pct: Math.min(1, months / 12) }
 }
 

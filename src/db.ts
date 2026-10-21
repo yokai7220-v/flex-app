@@ -38,6 +38,7 @@ export type Photo = {
 export type Settings = {
   currentLevel: string
   levelStart: DateStr
+  programStart?: DateStr
   strengthMode: 'alternate' | 'weekdays'
   alternateStart: DateStr
   weekdays: number[]
