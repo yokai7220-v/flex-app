@@ -1,6 +1,31 @@
 import { Seg, Top } from '../components/ui'
 import { updateSettings, useStore } from '../store'
-import { WEEKDAYS, today } from '../lib/date'
+import { WEEKDAYS, addDays, parse, today, weekStart } from '../lib/date'
+import { isHeavyDay, isStrengthDay } from '../lib/schedule'
+
+function WeekPreview() {
+  const { settings } = useStore()
+  const start = weekStart(today())
+  const days = Array.from({ length: 7 }, (_, i) => addDays(start, i))
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <div className="weekdays">
+        {days.map((d, i) => {
+          const str = isStrengthDay(settings, d)
+          const heavy = isHeavyDay(settings, d)
+          return (
+            <div key={d} style={{ flex: 1, textAlign: 'center', borderRadius: 10, padding: '8px 0', background: str ? 'var(--text)' : 'var(--bg)', color: str ? '#fff' : 'var(--muted)', outline: d === today() ? '2px solid var(--accent)' : 'none' }}>
+              <div className="tiny bold">{WEEKDAYS[i]}</div>
+              <div className="tiny">{parse(d).getDate()}</div>
+              <div style={{ height: 6, marginTop: 2 }}>{heavy && <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: 3, background: 'var(--accent)' }} />}</div>
+            </div>
+          )
+        })}
+      </div>
+      <div className="tiny muted" style={{ marginTop: 6 }}>Тёмные — силовые. Точка — день для тяжёлого блока.</div>
+    </div>
+  )
+}
 
 export function SettingsScreen() {
   const { settings: s } = useStore()
@@ -50,6 +75,7 @@ export function SettingsScreen() {
             { id: 'after', label: 'После силовой' },
           ]}
         />
+        <WeekPreview />
         <div className="small muted">
           {s.heavyMode === 'between'
             ? 'Блок ставится в дни без силовой. В начало автоматически добавляется разминка 5–10 мин.'
