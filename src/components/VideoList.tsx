@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { Video } from '../data/program'
 
 function openVideo(e: React.MouseEvent, id: string) {
@@ -20,21 +21,46 @@ function openVideo(e: React.MouseEvent, id: string) {
   window.location.href = app
 }
 
-export function VideoList({ videos }: { videos: Video[] }) {
+function VideoItem({ v, primary }: { v: Video; primary: boolean }) {
+  const [open, setOpen] = useState(false)
   return (
-    <div>
-      {videos.map((v, i) => (
-        <a key={v.id} className="video" href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" onClick={(e) => openVideo(e, v.id)}>
+    <div className="video-item">
+      <div className="video-row">
+        <a className="video" href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" onClick={(e) => openVideo(e, v.id)}>
           <div className="thumb" style={{ backgroundImage: `url(https://i.ytimg.com/vi/${v.id}/mqdefault.jpg)` }} />
           <div className="grow">
             <div className="vt">{v.title}</div>
             <div className="tiny muted">
               {v.year}
-              {i === 0 && videos.length > 1 ? ' · основное' : ''}
+              {primary ? ' · основное' : ''}
               {v.note ? ` · ${v.note}` : ''}
             </div>
           </div>
         </a>
+        {v.steps && (
+          <button className={open ? 'vcaret on' : 'vcaret'} aria-label="Упражнения из видео" aria-expanded={open} onClick={() => setOpen(!open)} />
+        )}
+      </div>
+      {open && v.steps && (
+        <ol className="steps vsteps">
+          {v.steps.map((s, i) => (
+            <li key={i}>
+              <div className="wrap">{s.name}</div>
+              {s.dose && <div className="dose">{s.dose}</div>}
+              {s.note && <div className="small muted">{s.note}</div>}
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  )
+}
+
+export function VideoList({ videos }: { videos: Video[] }) {
+  return (
+    <div>
+      {videos.map((v, i) => (
+        <VideoItem key={v.id} v={v} primary={i === 0 && videos.length > 1} />
       ))}
     </div>
   )

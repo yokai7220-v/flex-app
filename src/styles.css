@@ -222,7 +222,32 @@ a { color: var(--accent); }
   color: inherit;
   padding: 8px 0;
 }
-.video + .video { border-top: 1px solid var(--line); }
+.video-item + .video-item { border-top: 1px solid var(--line); }
+.video-row { display: flex; align-items: center; }
+.video-row .video { flex: 1; min-width: 0; }
+.vcaret {
+  width: 34px;
+  height: 44px;
+  border: 0;
+  background: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+  padding: 0;
+}
+.vcaret::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  margin-top: -5px;
+  transition: transform 0.15s;
+}
+.vcaret.on::after { transform: rotate(-135deg); margin-top: 3px; }
+.vsteps { margin: 0 0 12px; }
 .video .thumb {
   width: 112px;
   aspect-ratio: 16 / 9;
