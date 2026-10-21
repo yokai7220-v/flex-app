@@ -1,4 +1,5 @@
 import { CheckButton } from '../components/DoneControls'
+import { InstallHint } from '../components/InstallHint'
 import { Top } from '../components/ui'
 import { findLevel, testRoutine } from '../data/program'
 import { diffDays, human, today } from '../lib/date'
@@ -28,6 +29,7 @@ export function TodayScreen() {
         {human(t)} · {plan.strength ? 'силовой день' : 'без силовой'} · уровень {level.num} «{level.short}», неделя {levelWeek(settings)}
       </div>
 
+      <InstallHint />
       {isDeload(settings) && (
         <div className="banner">
           <b>Разгрузочная неделя.</b> В тяжёлых блоках вдвое меньше подходов, лёгкая — как обычно.

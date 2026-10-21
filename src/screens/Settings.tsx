@@ -1,4 +1,5 @@
 import { BackupCard } from '../components/BackupCard'
+import { InstallSteps, isStandalone } from '../components/InstallHint'
 import { Seg, Top } from '../components/ui'
 import { updateSettings, useStore } from '../store'
 import { WEEKDAYS, addDays, parse, today, weekStart } from '../lib/date'
@@ -94,6 +95,14 @@ export function SettingsScreen() {
 
       <div className="section-title">Данные и бэкап</div>
       <BackupCard />
+
+      <div className="section-title">Установка</div>
+      <div className="card">
+        {isStandalone() ? <div className="small">Приложение установлено на главный экран и работает без интернета.</div> : <InstallSteps />}
+      </div>
+      <div className="tiny muted" style={{ textAlign: 'center', margin: '16px 0' }}>
+        Программа по материалам Тома Меррика (Bodyweight Warrior). Видео открываются на YouTube.
+      </div>
     </div>
   )
 }
