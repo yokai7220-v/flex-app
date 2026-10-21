@@ -100,9 +100,6 @@ export function SettingsScreen() {
       <div className="card">
         {isStandalone() ? <div className="small">Приложение установлено на главный экран и работает без интернета.</div> : <InstallSteps />}
       </div>
-      <div className="tiny muted" style={{ textAlign: 'center', margin: '16px 0' }}>
-        Программа по материалам Тома Меррика (Bodyweight Warrior). Видео открываются на YouTube.
-      </div>
     </div>
   )
 }
