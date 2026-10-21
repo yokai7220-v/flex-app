@@ -20,7 +20,7 @@ export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
       {!embed && <Top title={r.title} back />}
 
       {r.kind === 'heavy' && settings.heavyMode === 'after' && (
-        <div className="banner info">Финишер после силовой: ты уже разогрет, отдельная разминка не нужна. Не делай это перед силовой.</div>
+        <div className="banner info">Делай сразу после силовой, пока разогрет, без отдельной разминки. Не перед силовой.</div>
       )}
       {r.intro && <div className="card small">{r.intro}</div>}
 

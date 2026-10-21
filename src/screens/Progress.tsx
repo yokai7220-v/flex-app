@@ -71,8 +71,8 @@ function StatsView() {
 
   return (
     <>
-      <Metric label="Лёгкая работа" unit="дн/нед" target={7} w7={w7} w30={w30} pick={(s) => s.lightPerWeek} />
-      <Metric label="Тяжёлые сессии" unit="в нед" target={target} w7={w7} w30={w30} pick={(s) => s.heavyPerWeek} />
+      <Metric label="Лёгкая" unit="дн/нед" target={7} w7={w7} w30={w30} pick={(s) => s.lightPerWeek} />
+      <Metric label="Тяжёлая" unit="в нед" target={target} w7={w7} w30={w30} pick={(s) => s.heavyPerWeek} />
       <Metric label="Выполнение плана" unit="" w7={w7} w30={w30} pick={(s) => s.adherence} pct />
 
       <div className="section-title">По неделям · 12 недель</div>
@@ -81,8 +81,8 @@ function StatsView() {
           value={metric}
           onChange={setMetric}
           options={[
-            { id: 'light', label: 'Лёгкая, дней' },
-            { id: 'heavy', label: 'Тяжёлые' },
+            { id: 'light', label: 'Лёгкая' },
+            { id: 'heavy', label: 'Тяжёлая' },
           ]}
         />
         <BarChart bars={weekBars(logs)} metric={metric} target={metric === 'light' ? 7 : target} />

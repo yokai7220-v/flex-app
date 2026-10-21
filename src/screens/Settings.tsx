@@ -24,7 +24,7 @@ function WeekPreview() {
           )
         })}
       </div>
-      <div className="tiny muted" style={{ marginTop: 6 }}>Тёмные — силовые. Точка — день для тяжёлого блока.</div>
+      <div className="tiny muted" style={{ marginTop: 6 }}>Тёмные — силовые. Точка — день для тяжёлой.</div>
     </div>
   )
 }
@@ -67,7 +67,7 @@ export function SettingsScreen() {
         )}
       </div>
 
-      <div className="section-title">Тяжёлый блок гибкости</div>
+      <div className="section-title">Когда делать тяжёлую</div>
       <div className="card">
         <Seg
           value={s.heavyMode}
@@ -80,8 +80,8 @@ export function SettingsScreen() {
         <WeekPreview />
         <div className="small muted">
           {s.heavyMode === 'between'
-            ? 'Блок ставится в дни без силовой. В начало автоматически добавляется разминка 5–10 мин.'
-            : 'Блок ставится в силовые дни — финишер 15–30 мин сразу после тренировки, отдельная разминка не нужна.'}
+            ? 'Тяжёлая ставится в дни без силовой. В начало автоматически добавляется разминка 5–10 мин.'
+            : 'Тяжёлая ставится в силовые дни, 15–30 мин сразу после тренировки, отдельная разминка не нужна.'}
         </div>
       </div>
 

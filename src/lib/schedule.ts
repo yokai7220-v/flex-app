@@ -60,7 +60,7 @@ export function planToday(level: Level, s: Settings, logs: Log[], d: DateStr = t
       weekCount,
       heavyDone: false,
       tomorrowStrength,
-      reason: s.heavyMode === 'between' ? 'Сегодня силовая — тяжёлый блок в дни между силовыми.' : 'Сегодня без силовой — тяжёлый блок делаешь после силовой.',
+      reason: s.heavyMode === 'between' ? 'Сегодня силовая, тяжёлая в дни между силовыми.' : 'Сегодня без силовой, тяжёлая после силовой.',
     }
   return { strength, heavyDay, weekCount, heavy: next, heavyDone: false, tomorrowStrength }
 }

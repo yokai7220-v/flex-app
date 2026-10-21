@@ -34,7 +34,7 @@ export function TodayScreen() {
       <InstallHint />
       {isDeload(settings) && (
         <div className="banner">
-          <b>Разгрузочная неделя.</b> В тяжёлых блоках вдвое меньше подходов, лёгкая — как обычно.
+          <b>Разгрузочная неделя.</b> В тяжёлых вдвое меньше подходов, лёгкая — как обычно.
         </div>
       )}
       {measureDue && (
@@ -52,7 +52,7 @@ export function TodayScreen() {
       <RoutineCard r={light} right={<CheckButton routine={light} />} />
 
       <div className="section-title">
-        Тяжёлый блок · {plan.weekCount} из {level.heavyPerWeek} на этой неделе
+        Тяжёлая · {plan.weekCount} из {level.heavyPerWeek} за неделю
       </div>
       {plan.heavy ? (
         <>
@@ -60,7 +60,7 @@ export function TodayScreen() {
           {!plan.heavyDone && (
             <div className="small muted" style={{ margin: '0 4px 10px' }}>
               {settings.heavyMode === 'between'
-                ? `Начни с разминки 5–10 мин — она уже добавлена в рутину.${plan.tomorrowStrength ? ' Завтра силовая: если это ноги, лучше перенеси блок на ноги.' : ''}`
+                ? `Начни с разминки 5–10 мин — она уже добавлена в рутину.${plan.tomorrowStrength ? ' Завтра силовая. Если это ноги, сегодня лучше тяжёлая на плечи.' : ''}`
                 : 'Сразу после силовой, пока тело тёплое. Не перед ней.'}
             </div>
           )}
