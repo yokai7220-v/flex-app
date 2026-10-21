@@ -87,6 +87,15 @@ async (page) => {
       await tab('Программа'); await snap('2-program')
       await tab('Прогресс'); await snap('3-stats')
       await page.locator('.seg button', { hasText: 'Фото' }).click(); await page.waitForTimeout(500); await snap('4-photos')
+      if (state !== 'empty') {
+        await page.getByRole('button', { name: 'Сравнить' }).click(); await page.waitForTimeout(600); await snap('6-compare')
+        if (state === 'full') {
+          await page.locator('.seg button', { hasText: 'Рядом' }).click(); await page.waitForTimeout(400); await snap('7-compare-side')
+        }
+        await page.goBack(); await page.waitForTimeout(300)
+        await page.locator('button:has(.chip)').first().click(); await page.waitForTimeout(500); await snap('8-photo')
+        await page.goBack(); await page.waitForTimeout(300)
+      }
       await tab('Настройки'); await snap('5-settings')
     }
   }

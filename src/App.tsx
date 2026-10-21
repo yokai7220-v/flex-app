@@ -1,5 +1,6 @@
 import { BottomNav } from './components/BottomNav'
 import { useNav } from './nav'
+import { CompareScreen } from './screens/Compare'
 import { PhotoDetail } from './screens/PhotoDetail'
 import { ProgramScreen } from './screens/Program'
 import { ProgressScreen } from './screens/Progress'
@@ -12,6 +13,7 @@ function Screen() {
   const { route } = useNav()
   if (route.routine) return <RoutineDetail id={route.routine} />
   if (route.photo) return <PhotoDetail id={route.photo} />
+  if (route.compare) return <CompareScreen />
   switch (route.tab) {
     case 'program':
       return <ProgramScreen />
