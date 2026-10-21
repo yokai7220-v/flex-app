@@ -3,6 +3,7 @@ import { useNav } from './nav'
 import { ProgramScreen } from './screens/Program'
 import { RoutineDetail } from './screens/RoutineDetail'
 import { SettingsScreen } from './screens/Settings'
+import { TodayScreen } from './screens/Today'
 import { useStore } from './store'
 
 function Screen() {
@@ -13,6 +14,8 @@ function Screen() {
       return <ProgramScreen />
     case 'settings':
       return <SettingsScreen />
+    case 'today':
+      return <TodayScreen />
     default:
       return <div className="screen"><div className="top"><h1>{route.tab}</h1></div></div>
   }

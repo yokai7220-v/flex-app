@@ -1,3 +1,4 @@
+import { DoneSection } from '../components/DoneControls'
 import { Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
 import { WARMUP_STEP, findRoutine, levelOfRoutine, type Routine, type Step } from '../data/program'
@@ -54,6 +55,8 @@ export function RoutineDetail({ id }: { id: string }) {
           {r.notes.map((n) => <div key={n}>{n}</div>)}
         </div>
       )}
+
+      <DoneSection routine={r} />
     </div>
   )
 }

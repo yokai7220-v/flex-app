@@ -21,10 +21,10 @@ type Nav = {
 const NavContext = createContext<Nav>(null!)
 
 export function NavProvider({ children }: { children: ReactNode }) {
-  const [route, setRoute] = useState<Route>(() => (history.state as Route) ?? { tab: 'today' })
+  const [route, setRoute] = useState<Route>(() => ({ tab: (history.state as Route | null)?.tab ?? 'today' }))
 
   useEffect(() => {
-    if (!history.state) history.replaceState(route, '')
+    history.replaceState(route, '')
     const onPop = (e: PopStateEvent) => setRoute((e.state as Route) ?? { tab: 'today' })
     addEventListener('popstate', onPop)
     return () => removeEventListener('popstate', onPop)
