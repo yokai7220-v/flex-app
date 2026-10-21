@@ -17,9 +17,9 @@ export function Top({ title, back, big, right }: { title: ReactNode; back?: bool
   )
 }
 
-export function Seg<T extends string>({ value, options, onChange }: { value: T; options: { id: T; label: string; dot?: boolean; done?: boolean }[]; onChange: (v: T) => void }) {
+export function Seg<T extends string>({ value, options, onChange, variant }: { value: T; options: { id: T; label: string; dot?: boolean; done?: boolean }[]; onChange: (v: T) => void; variant?: 'tabs' | 'switch' }) {
   return (
-    <div className="seg">
+    <div className={variant ? `seg ${variant}` : 'seg'}>
       {options.map((o) => (
         <button key={o.id} className={o.id === value ? 'on' : ''} onClick={() => onChange(o.id)}>
           {o.label}

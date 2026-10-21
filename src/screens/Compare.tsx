@@ -42,6 +42,7 @@ export function CompareScreen() {
               <Seg
                 value={mode}
                 onChange={setMode}
+                variant="switch"
                 options={[
                   { id: 'slider', label: 'Ползунок' },
                   { id: 'side', label: 'Рядом' },

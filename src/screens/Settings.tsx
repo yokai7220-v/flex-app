@@ -46,6 +46,7 @@ export function SettingsScreen() {
         <Seg
           value={s.strengthMode}
           onChange={(strengthMode) => updateSettings({ strengthMode })}
+          variant="switch"
           options={[
             { id: 'alternate', label: 'Через день' },
             { id: 'weekdays', label: 'По дням недели' },
@@ -72,6 +73,7 @@ export function SettingsScreen() {
         <Seg
           value={s.heavyMode}
           onChange={(heavyMode) => updateSettings({ heavyMode })}
+          variant="switch"
           options={[
             { id: 'between', label: 'Между силовыми' },
             { id: 'after', label: 'После силовой' },

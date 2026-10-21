@@ -22,6 +22,7 @@ export function ProgressScreen() {
       <Seg
         value={sub}
         onChange={(s) => replace({ tab: 'progress', sub: s })}
+        variant="tabs"
         options={[
           { id: 'stats', label: 'Статистика' },
           { id: 'photos', label: 'Фото' },
@@ -80,6 +81,7 @@ function StatsView() {
         <Seg
           value={metric}
           onChange={setMetric}
+          variant="switch"
           options={[
             { id: 'light', label: 'Лёгкая' },
             { id: 'heavy', label: 'Тяжёлая' },
