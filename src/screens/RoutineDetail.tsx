@@ -20,12 +20,14 @@ export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
   return (
     <div className={embed ? undefined : 'screen'}>
       {!embed && <Top title={r.title} back />}
-      <div className="row" style={{ gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
-        {!embed && <span className={kindChip(r)}>{kindLabel(r)}</span>}
-        {level && <span className="chip">Уровень {level.num}</span>}
-        <span className="chip">{r.freq}</span>
-        <span className="chip">{r.duration}</span>
-      </div>
+      {!embed && (
+        <div className="row" style={{ gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+          <span className={kindChip(r)}>{kindLabel(r)}</span>
+          {level && <span className="chip">Уровень {level.num}</span>}
+          <span className="chip">{r.freq}</span>
+          <span className="chip">{r.duration}</span>
+        </div>
+      )}
 
       {r.kind === 'heavy' && settings.heavyMode === 'after' && (
         <div className="banner info">Финишер после силовой: ты уже разогрет, отдельная разминка не нужна. Не делай это перед силовой.</div>
