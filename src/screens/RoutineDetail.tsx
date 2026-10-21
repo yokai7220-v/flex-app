@@ -1,8 +1,7 @@
 import { DoneSection } from '../components/DoneControls'
 import { Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
-import { WARMUP_STEP, findRoutine, levelOfRoutine, type Routine, type Step } from '../data/program'
-import { kindChip, kindLabel } from '../lib/labels'
+import { WARMUP_STEP, findRoutine, type Routine, type Step } from '../data/program'
 import { useStore } from '../store'
 
 export function stepsFor(r: Routine, heavyMode: 'between' | 'after'): Step[] {
@@ -14,20 +13,11 @@ export function RoutineDetail({ id, embed }: { id: string; embed?: boolean }) {
   const { settings } = useStore()
   const r = findRoutine(id)
   if (!r) return <div className="screen"><Top title="Не найдено" back /></div>
-  const level = levelOfRoutine(id)
   const steps = stepsFor(r, settings.heavyMode)
 
   return (
     <div className={embed ? undefined : 'screen'}>
       {!embed && <Top title={r.title} back />}
-      {!embed && (
-        <div className="row" style={{ gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
-          <span className={kindChip(r)}>{kindLabel(r)}</span>
-          {level && <span className="chip">{level.short}</span>}
-          {r.freq && <span className="chip">{r.freq}</span>}
-          <span className="chip">{r.duration}</span>
-        </div>
-      )}
 
       {r.kind === 'heavy' && settings.heavyMode === 'after' && (
         <div className="banner info">Финишер после силовой: ты уже разогрет, отдельная разминка не нужна. Не делай это перед силовой.</div>
