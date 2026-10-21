@@ -3,7 +3,7 @@ import { InstallHint } from '../components/InstallHint'
 import { Top } from '../components/ui'
 import { findLevel } from '../data/program'
 import { dayLabel, diffDays, human, today } from '../lib/date'
-import { isDeload, lastMeasure, levelWeek, nextHeavy, planToday } from '../lib/schedule'
+import { isDeload, lastMeasure, nextHeavy, planToday } from '../lib/schedule'
 import { useNav } from '../nav'
 import { useStore } from '../store'
 import { RoutineCard } from './Program'
@@ -28,8 +28,7 @@ export function TodayScreen() {
       <div className="small muted" style={{ margin: '-8px 4px 4px' }}>{dayLabel(t)}</div>
       <div className="row" style={{ gap: 6, flexWrap: 'wrap', margin: '0 4px 12px' }}>
         <span className={plan.strength ? 'chip accent' : 'chip'}>{plan.strength ? 'Силовой день' : 'Без силовой'}</span>
-        <span className="chip">{level.num} · {level.short}</span>
-        <span className="chip">Неделя {levelWeek(settings)}</span>
+        <span className="chip">{level.short}</span>
       </div>
 
       <InstallHint />
