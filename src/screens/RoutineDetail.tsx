@@ -1,20 +1,14 @@
 import { DoneSection } from '../components/DoneControls'
 import { Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
-import { WARMUP_STEP, findRoutine, type Routine, type Step } from '../data/program'
+import { WARMUP_STEP, findRoutine } from '../data/program'
 import { useStore } from '../store'
-
-export function stepsFor(r: Routine, heavyMode: 'between' | 'after'): Step[] {
-  if (r.kind !== 'heavy' || heavyMode !== 'between' || r.steps[0]?.name.startsWith('Разминка')) return r.steps
-  return [WARMUP_STEP, ...r.steps]
-}
 
 export function RoutineDetail({ id }: { id: string }) {
   const { settings } = useStore()
   const r = findRoutine(id)
   if (!r) return <div className="screen"><Top title="Не найдено" back /></div>
-  const steps = stepsFor(r, settings.heavyMode)
-  const inVideo = r.steps === r.videos[0]?.steps
+  const warmup = r.kind === 'heavy' && settings.heavyMode === 'between' && !r.videos[0]?.steps?.[0]?.name.startsWith('Разминка')
 
   return (
     <div className="screen">
@@ -30,26 +24,7 @@ export function RoutineDetail({ id }: { id: string }) {
         <VideoList videos={r.videos} />
       </div>
 
-      {inVideo ? (
-        steps.length > r.steps.length && (
-          <p className="note">{steps[0].name}: {steps[0].dose}</p>
-        )
-      ) : (
-        <>
-          <div className="section-title">Упражнения</div>
-          <div className="card" style={{ paddingTop: 6, paddingBottom: 6 }}>
-            <ol className="steps">
-              {steps.map((s, i) => (
-                <li key={i}>
-                  <div className="wrap">{s.name}</div>
-                  {s.dose && <div className="dose">{s.dose}</div>}
-                  {s.note && <div className="small muted">{s.note}</div>}
-                </li>
-              ))}
-            </ol>
-          </div>
-        </>
-      )}
+      {warmup && <p className="note">{WARMUP_STEP.name}: {WARMUP_STEP.dose}</p>}
 
       {r.notes && r.notes.length > 0 && (
         <div className="note stack">
