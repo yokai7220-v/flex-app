@@ -37,6 +37,11 @@ export const human = (s: DateStr) => {
   return d.getFullYear() === new Date().getFullYear() ? base : `${base} ${d.getFullYear()}`
 }
 
+export const dayLabel = (s: DateStr) => {
+  const d = parse(s)
+  return `${WEEKDAYS[weekdayIdx(s)].toLowerCase()}, ${d.getDate()} ${MONTHS_GEN[d.getMonth()]}`
+}
+
 export const shortDate = (s: DateStr) => {
   const d = parse(s)
   return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${String(d.getFullYear()).slice(2)}`

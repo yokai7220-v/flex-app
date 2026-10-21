@@ -2,7 +2,7 @@ import { CheckButton } from '../components/DoneControls'
 import { InstallHint } from '../components/InstallHint'
 import { Top } from '../components/ui'
 import { findLevel, testRoutine } from '../data/program'
-import { diffDays, human, today } from '../lib/date'
+import { dayLabel, diffDays, human, today } from '../lib/date'
 import { isDeload, lastMeasure, levelWeek, nextHeavy, planToday } from '../lib/schedule'
 import { useNav } from '../nav'
 import { useStore } from '../store'
@@ -25,8 +25,11 @@ export function TodayScreen() {
   return (
     <div className="screen">
       <Top title="Сегодня" big />
-      <div className="small muted" style={{ margin: '-8px 4px 12px' }}>
-        {human(t)} · {plan.strength ? 'силовой день' : 'без силовой'} · уровень {level.num} «{level.short}», неделя {levelWeek(settings)}
+      <div className="row" style={{ gap: 6, flexWrap: 'wrap', margin: '-8px 4px 12px' }}>
+        <span className="small muted">{dayLabel(t)}</span>
+        <span className={plan.strength ? 'chip accent' : 'chip'}>{plan.strength ? 'Силовой день' : 'Без силовой'}</span>
+        <span className="chip">{level.num} · {level.short}</span>
+        <span className="chip">Неделя {levelWeek(settings)}</span>
       </div>
 
       <InstallHint />

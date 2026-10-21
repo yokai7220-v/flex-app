@@ -87,6 +87,9 @@ a { color: var(--accent); }
 .grow { flex: 1; min-width: 0; }
 .wrap { overflow-wrap: anywhere; }
 .stack > * + * { margin-top: 8px; }
+.list { margin: 0; padding-left: 18px; }
+.list li + li { margin-top: 8px; }
+.list li::marker { color: var(--muted); }
 
 .btn {
   border: 0;

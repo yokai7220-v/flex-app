@@ -49,9 +49,9 @@ function TheoryView() {
       {theory.map((t) => (
         <div className="card" key={t.title}>
           <div className="bold" style={{ marginBottom: 8 }}>{t.title}</div>
-          <div className="stack small">
-            {t.body.map((p) => <p key={p} style={{ margin: 0 }}>{p}</p>)}
-          </div>
+          <ul className="list small">
+            {t.body.map((p) => <li key={p}>{p}</li>)}
+          </ul>
           {t.videos && <div style={{ marginTop: 10 }}><VideoList videos={t.videos} /></div>}
         </div>
       ))}
@@ -87,6 +87,9 @@ function LevelView({ level }: { level: Level }) {
         <p className="small" style={{ margin: '10px 0 0' }}>{level.goal}</p>
       </div>
 
+      <div className="section-title">Рутины</div>
+      {level.routines.map((r) => <RoutineCard key={r.id} r={r} />)}
+
       <div className="section-title">Критерии перехода · {passed} из {level.criteria.length}</div>
       <div className="card">
         {level.criteria.map((c) => (
@@ -108,9 +111,6 @@ function LevelView({ level }: { level: Level }) {
           )}
         </div>
       )}
-
-      <div className="section-title">Рутины</div>
-      {level.routines.map((r) => <RoutineCard key={r.id} r={r} />)}
     </>
   )
 }
