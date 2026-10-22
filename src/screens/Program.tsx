@@ -1,7 +1,7 @@
 import { IconCheck, IconChevron } from '../components/Icons'
 import { Seg, Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
-import { levels, theory, type Level, type Routine } from '../data/program'
+import { levels, levelOfRoutine, theory, type Level, type Routine } from '../data/program'
 import { human, today } from '../lib/date'
 import { kindChip, kindLabel } from '../lib/labels'
 import { useNav } from '../nav'
@@ -101,7 +101,9 @@ export function RoutineCard({ r, right, hideFreq }: { r: Routine; right?: React.
   const { go, route } = useNav()
   const { logs } = useStore()
   const last = logs.find((l) => l.routineId === r.id)
-  const meta = [hideFreq ? '' : r.freq, last ? `последний раз ${human(last.date)}` : ''].filter(Boolean).join(' · ')
+  const rot = r.slot ? levelOfRoutine(r.id)?.rotation : undefined
+  const lastTxt = last ? `последний раз ${human(last.date)}` : ''
+  const meta = rot || hideFreq ? lastTxt : [r.freq, lastTxt].filter(Boolean).join(' · ')
   return (
     <div className="card tap" onClick={() => go({ tab: route.tab, routine: r.id })}>
       <div className="row">
@@ -111,7 +113,16 @@ export function RoutineCard({ r, right, hideFreq }: { r: Routine; right?: React.
             <span className="tiny muted">{r.duration}</span>
           </div>
           <div className="bold wrap">{r.title}</div>
-          {meta && <div className="small muted">{meta}</div>}
+          {(rot || meta) && (
+            <div className="small muted" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+              {rot && (
+                <span className="rot">
+                  {rot.map((s, i) => <span key={i} className={s === r.slot ? 'rotl on' : 'rotl'}>{s}</span>)}
+                </span>
+              )}
+              {meta && <span>{meta}</span>}
+            </div>
+          )}
         </div>
         {right ?? <IconChevron />}
       </div>
