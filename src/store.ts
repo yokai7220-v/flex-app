@@ -30,7 +30,14 @@ const byDate = <T extends { date: string; createdAt: number }>(a: T, b: T) => b.
 
 export async function loadStore() {
   const db = await dbPromise
-  const [logs, photos, saved] = await Promise.all([db.getAll('logs'), db.getAll('photos'), db.get('kv', 'settings')])
+  const [rawLogs, photos, saved] = await Promise.all([db.getAll('logs'), db.getAll('photos'), db.get('kv', 'settings')])
+  const seen = new Set<string>()
+  const logs = rawLogs.sort((a, b) => a.createdAt - b.createdAt).filter((l) => {
+    const dup = seen.has(`${l.routineId}|${l.date}`)
+    if (!dup) seen.add(`${l.routineId}|${l.date}`)
+    else db.delete('logs', l.id)
+    return !dup
+  })
   const settings = { ...defaultSettings(), ...(saved as Partial<Settings> | undefined) }
   applyAccent(settings.accent)
   set({ ready: true, logs: logs.sort(byDate), photos: photos.sort(byDate), settings })

@@ -31,7 +31,7 @@ export function TodayScreen() {
   const backupDue = photos.length > 0 && (!settings.lastBackup || Date.now() - settings.lastBackup > 30 * DAY)
 
   const add = (r: Routine) => {
-    addLog(r, t)
+    if (!logs.some((l) => l.routineId === r.id && l.date === t)) addLog(r, t)
     setPick(false)
   }
 
@@ -51,10 +51,12 @@ export function TodayScreen() {
         Тяжёлая · {weekCount} из {level.heavyPerWeek} за неделю
       </div>
       {doneHeavy.map((r) => <RoutineCard key={r.id} r={r} right={<CheckButton routine={r} />} />)}
-      <div className="card tap row" onClick={() => setPick(true)}>
-        <div className="grow bold">Добавить тяжёлую</div>
-        <IconPlus />
-      </div>
+      {doneHeavy.length === 0 && (
+        <div className="card tap row" onClick={() => setPick(true)}>
+          <div className="grow bold">Добавить тяжёлую</div>
+          <IconPlus />
+        </div>
+      )}
 
       {support.length > 0 && (
         <>

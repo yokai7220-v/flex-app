@@ -5,7 +5,7 @@ import { addDays, diffDays, today, weekStart, type DateStr } from './date'
 export const heavyInWeek = (logs: Log[], d: DateStr) => {
   const start = weekStart(d)
   const end = addDays(start, 6)
-  return logs.filter((l) => l.kind === 'heavy' && l.date >= start && l.date <= end).length
+  return new Set(logs.filter((l) => l.kind === 'heavy' && l.date >= start && l.date <= end).map((l) => l.date)).size
 }
 
 export function nextHeavy(level: Level, logs: Log[]): Routine {
