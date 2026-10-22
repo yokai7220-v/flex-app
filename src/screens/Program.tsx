@@ -1,4 +1,4 @@
-import { IconCheck, IconChevron } from '../components/Icons'
+import { IconCheck, IconChevron, IconPlus } from '../components/Icons'
 import { Seg, Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
 import { levels, levelOfRoutine, theory, type Level, type Routine } from '../data/program'
@@ -97,7 +97,7 @@ function LevelView({ level }: { level: Level }) {
   )
 }
 
-export function RoutineCard({ r, right, hideFreq }: { r: Routine; right?: React.ReactNode; hideFreq?: boolean }) {
+export function RoutineCard({ r, right, hideFreq, onPick }: { r: Routine; right?: React.ReactNode; hideFreq?: boolean; onPick?: (r: Routine) => void }) {
   const { go, route } = useNav()
   const { logs } = useStore()
   const last = logs.find((l) => l.routineId === r.id)
@@ -105,7 +105,7 @@ export function RoutineCard({ r, right, hideFreq }: { r: Routine; right?: React.
   const lastTxt = last ? `последний раз ${human(last.date)}` : ''
   const meta = rot || hideFreq ? lastTxt : [r.freq, lastTxt].filter(Boolean).join(' · ')
   return (
-    <div className="card tap" onClick={() => go({ tab: route.tab, routine: r.id })}>
+    <div className="card tap" onClick={() => (onPick ? onPick(r) : go({ tab: route.tab, routine: r.id }))}>
       <div className="row">
         <div className="grow">
           <div className="row" style={{ gap: 6, marginBottom: 4 }}>
@@ -124,7 +124,7 @@ export function RoutineCard({ r, right, hideFreq }: { r: Routine; right?: React.
             </div>
           )}
         </div>
-        {right ?? <IconChevron />}
+        {right ?? (onPick ? <IconPlus /> : <IconChevron />)}
       </div>
     </div>
   )

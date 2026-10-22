@@ -38,9 +38,6 @@ export type Photo = {
 export type Settings = {
   currentLevel: string
   levelStart: DateStr
-  strengthMode: 'alternate' | 'weekdays'
-  alternateStart: DateStr
-  weekdays: number[]
   heavyMode: 'between' | 'after'
   criteria: Record<string, boolean>
   accent?: string
@@ -51,9 +48,6 @@ export type Settings = {
 export const defaultSettings = (): Settings => ({
   currentLevel: 'l1',
   levelStart: today(),
-  strengthMode: 'alternate',
-  alternateStart: today(),
-  weekdays: [0, 2, 4],
   heavyMode: 'between',
   criteria: {},
 })

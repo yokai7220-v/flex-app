@@ -1,18 +1,6 @@
 import type { Level, Routine } from '../data/program'
 import type { Log, Photo, Settings } from '../db'
-import { addDays, diffDays, today, weekStart, weekdayIdx, type DateStr } from './date'
-
-const WEEKDAYS_ACC = ['в понедельник', 'во вторник', 'в среду', 'в четверг', 'в пятницу', 'в субботу', 'в воскресенье']
-
-function nextHeavyDay(s: Settings, d: DateStr) {
-  const n = [1, 2, 3, 4, 5, 6, 7].find((i) => isHeavyDay(s, addDays(d, i))) ?? 1
-  return n === 1 ? 'завтра' : n === 2 ? 'послезавтра' : WEEKDAYS_ACC[weekdayIdx(addDays(d, n))]
-}
-
-export const isStrengthDay = (s: Settings, d: DateStr) =>
-  s.strengthMode === 'alternate' ? ((diffDays(d, s.alternateStart) % 2) + 2) % 2 === 0 : s.weekdays.includes(weekdayIdx(d))
-
-export const isHeavyDay = (s: Settings, d: DateStr) => (s.heavyMode === 'after' ? isStrengthDay(s, d) : !isStrengthDay(s, d))
+import { addDays, diffDays, today, weekStart, type DateStr } from './date'
 
 export const heavyInWeek = (logs: Log[], d: DateStr) => {
   const start = weekStart(d)
@@ -35,39 +23,4 @@ export function lastMeasure(logs: Log[], photos: Photo[]): DateStr | undefined {
   const t = logs.find((l) => l.kind === 'test')?.date
   const p = photos[0]?.date
   return [t, p].filter(Boolean).sort().pop()
-}
-
-export type TodayPlan = {
-  strength: boolean
-  heavyDay: boolean
-  weekCount: number
-  heavy?: Routine
-  heavyDone: boolean
-  reason?: string
-  tomorrowStrength: boolean
-}
-
-export function planToday(level: Level, s: Settings, logs: Log[], d: DateStr = today()): TodayPlan {
-  const strength = isStrengthDay(s, d)
-  const heavyDay = isHeavyDay(s, d)
-  const weekCount = heavyInWeek(logs, d)
-  const tomorrowStrength = isStrengthDay(s, addDays(d, 1))
-  const doneToday = logs.find((l) => l.kind === 'heavy' && l.date === d)
-  if (doneToday) {
-    const heavy = level.routines.find((r) => r.id === doneToday.routineId)
-    return { strength, heavyDay, weekCount, heavy, heavyDone: true, tomorrowStrength }
-  }
-  const next = nextHeavy(level, logs)
-  if (weekCount >= level.heavyPerWeek)
-    return { strength, heavyDay, weekCount, heavyDone: false, tomorrowStrength, reason: 'Тяжёлые на этой неделе сделаны.' }
-  if (!heavyDay)
-    return {
-      strength,
-      heavyDay,
-      weekCount,
-      heavyDone: false,
-      tomorrowStrength,
-      reason: `Сегодня без тяжёлой, следующая ${nextHeavyDay(s, d)}.`,
-    }
-  return { strength, heavyDay, weekCount, heavy: next, heavyDone: false, tomorrowStrength }
 }
