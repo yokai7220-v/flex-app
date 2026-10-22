@@ -114,7 +114,7 @@ export function RoutineCard({ r, right, hideFreq }: { r: Routine; right?: React.
           </div>
           <div className="bold wrap">{r.title}</div>
           {(rot || meta) && (
-            <div className="small muted" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+            <div className="small muted" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginTop: rot ? 5 : 0 }}>
               {rot && (
                 <span className="rot">
                   {rot.map((s, i) => <span key={i} className={s === r.slot ? 'rotl on' : 'rotl'}>{s}</span>)}
