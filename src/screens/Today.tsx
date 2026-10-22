@@ -20,8 +20,8 @@ export function TodayScreen() {
   const light = level.routines.find((r) => r.kind === 'light')!
   const t = today()
   const support = level.routines.filter((r) => r.kind === 'support')
-  const swap = support.find((r) => swapDue(r, logs, t))
-  const extras = support.filter((r) => r !== swap)
+  const swap = support.find((r) => r.insteadOfLight && (swapDue(r, logs, t) || logs.some((l) => l.routineId === r.id && l.date === t)))
+  const extras = support.filter((r) => !r.insteadOfLight)
   const heavies = level.routines.filter((r) => r.kind === 'heavy')
   const next = nextHeavy(level, logs)
   const rest = heavies.filter((r) => r.id !== next.id)
@@ -47,8 +47,7 @@ export function TodayScreen() {
       </div>
 
       <div className="section-title">Каждый день</div>
-      {swap && <RoutineCard r={swap} right={<CheckButton routine={swap} />} />}
-      <RoutineCard r={light} right={<CheckButton routine={light} />} hideFreq />
+      {swap ? <RoutineCard r={swap} right={<CheckButton routine={swap} />} /> : <RoutineCard r={light} right={<CheckButton routine={light} />} hideFreq />}
 
       <div className="section-title">
         Тяжёлая · {weekCount} из {level.heavyPerWeek} за неделю

@@ -75,15 +75,15 @@ function LevelView({ level }: { level: Level }) {
       </div>
 
       <div className="section-title">Лёгкая</div>
-      {level.routines.filter((r) => r.kind === 'light').map((r) => <RoutineCard key={r.id} r={r} />)}
+      {level.routines.filter((r) => r.kind === 'light' || r.insteadOfLight).map((r) => <RoutineCard key={r.id} r={r} />)}
 
       <div className="section-title">Тяжёлые</div>
       {level.rotation.map((s, i) => <RoutineCard key={i} r={level.routines.find((r) => r.kind === 'heavy' && r.slot === s)!} />)}
 
-      {level.routines.some((r) => r.kind === 'support') && (
+      {level.routines.some((r) => r.kind === 'support' && !r.insteadOfLight) && (
         <>
           <div className="section-title">Дополнительно</div>
-          {level.routines.filter((r) => r.kind === 'support').map((r) => <RoutineCard key={r.id} r={r} />)}
+          {level.routines.filter((r) => r.kind === 'support' && !r.insteadOfLight).map((r) => <RoutineCard key={r.id} r={r} />)}
         </>
       )}
 
