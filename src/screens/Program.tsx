@@ -1,8 +1,8 @@
 import { IconCheck, IconChevron, IconPlus } from '../components/Icons'
 import { Seg, Top } from '../components/ui'
 import { VideoList } from '../components/VideoList'
-import { levels, levelOfRoutine, theory, type Level, type Routine } from '../data/program'
-import { human, today } from '../lib/date'
+import { levels, theory, type Level, type Routine } from '../data/program'
+import { daysAgoTxt, human, today } from '../lib/date'
 import { kindChip, kindLabel } from '../lib/labels'
 import { useNav } from '../nav'
 import { updateSettings, useStore } from '../store'
@@ -75,7 +75,11 @@ function LevelView({ level }: { level: Level }) {
       </div>
 
       <div className="section-title">Рутины</div>
-      {level.routines.map((r) => <RoutineCard key={r.id} r={r} />)}
+      {[
+        ...level.routines.filter((r) => r.kind === 'light'),
+        ...level.rotation.map((s) => level.routines.find((r) => r.kind === 'heavy' && r.slot === s)!),
+        ...level.routines.filter((r) => r.kind === 'support'),
+      ].map((r, i) => <RoutineCard key={`${r.id}#${i}`} r={r} />)}
 
       <div className="section-title">Критерии перехода · {passed} из {level.criteria.length}</div>
       <div className="card">
@@ -101,9 +105,8 @@ export function RoutineCard({ r, right, hideFreq, onPick }: { r: Routine; right?
   const { go, route } = useNav()
   const { logs } = useStore()
   const last = logs.find((l) => l.routineId === r.id)
-  const rot = r.slot ? levelOfRoutine(r.id)?.rotation : undefined
-  const lastTxt = last ? `последний раз ${human(last.date)}` : ''
-  const meta = rot || hideFreq ? lastTxt : [r.freq, lastTxt].filter(Boolean).join(' · ')
+  const lastTxt = last ? (r.kind === 'heavy' ? daysAgoTxt(last.date) : `последний раз ${human(last.date)}`) : ''
+  const meta = r.kind === 'heavy' || hideFreq ? lastTxt : [r.freq, lastTxt].filter(Boolean).join(' · ')
   return (
     <div className="card tap" onClick={() => (onPick ? onPick(r) : go({ tab: route.tab, routine: r.id }))}>
       <div className="row">
@@ -113,16 +116,7 @@ export function RoutineCard({ r, right, hideFreq, onPick }: { r: Routine; right?
             <span className="tiny muted">{r.duration}</span>
           </div>
           <div className="bold wrap">{r.title}</div>
-          {(rot || meta) && (
-            <div className="small muted" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginTop: rot ? 5 : 0 }}>
-              {rot && (
-                <span className="rot">
-                  {rot.map((s, i) => <span key={i} className={s === r.slot ? 'rotl on' : 'rotl'}>{s}</span>)}
-                </span>
-              )}
-              {meta && <span>{meta}</span>}
-            </div>
-          )}
+          {meta && <div className="small muted">{meta}</div>}
         </div>
         {right ?? (onPick ? <IconPlus /> : <IconChevron />)}
       </div>

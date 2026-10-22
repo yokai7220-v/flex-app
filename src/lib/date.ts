@@ -42,6 +42,11 @@ export const dayLabel = (s: DateStr) => {
   return `${WEEKDAYS[weekdayIdx(s)].toLowerCase()}, ${d.getDate()} ${MONTHS_GEN[d.getMonth()]}`
 }
 
+export const daysAgoTxt = (s: DateStr) => {
+  const n = diffDays(today(), s)
+  return n <= 0 ? 'сегодня' : n === 1 ? 'вчера' : `${n} ${plural(n, 'день', 'дня', 'дней')} назад`
+}
+
 export const shortDate = (s: DateStr) => {
   const d = parse(s)
   return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${String(d.getFullYear()).slice(2)}`
