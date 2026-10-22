@@ -74,12 +74,18 @@ function LevelView({ level }: { level: Level }) {
         <p className="small" style={{ margin: '10px 0 0' }}>{level.goal}</p>
       </div>
 
-      <div className="section-title">Рутины</div>
-      {[
-        ...level.routines.filter((r) => r.kind === 'light'),
-        ...level.rotation.map((s) => level.routines.find((r) => r.kind === 'heavy' && r.slot === s)!),
-        ...level.routines.filter((r) => r.kind === 'support'),
-      ].map((r, i) => <RoutineCard key={`${r.id}#${i}`} r={r} />)}
+      <div className="section-title">Лёгкая</div>
+      {level.routines.filter((r) => r.kind === 'light').map((r) => <RoutineCard key={r.id} r={r} />)}
+
+      <div className="section-title">Тяжёлые</div>
+      {level.rotation.map((s, i) => <RoutineCard key={i} r={level.routines.find((r) => r.kind === 'heavy' && r.slot === s)!} />)}
+
+      {level.routines.some((r) => r.kind === 'support') && (
+        <>
+          <div className="section-title">Дополнительно</div>
+          {level.routines.filter((r) => r.kind === 'support').map((r) => <RoutineCard key={r.id} r={r} />)}
+        </>
+      )}
 
       <div className="section-title">Критерии перехода · {passed} из {level.criteria.length}</div>
       <div className="card">
