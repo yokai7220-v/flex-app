@@ -37,7 +37,7 @@ export function MonthCalendar({ logs, onPick }: { logs: Log[]; onPick: (d: DateS
                 borderRadius: 10,
                 padding: 0,
                 position: 'relative',
-                height: 34,
+                height: 38,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -46,8 +46,8 @@ export function MonthCalendar({ logs, onPick }: { logs: Log[]; onPick: (d: DateS
                 cursor: future ? 'default' : 'pointer',
               }}
             >
-              <div className="small">{Number(d.slice(8))}</div>
-              <div style={{ position: 'absolute', bottom: 3, left: 0, right: 0, display: 'flex', gap: 3, justifyContent: 'center', height: 6 }}>
+              <div className="small" style={{ lineHeight: 1 }}>{Number(d.slice(8))}</div>
+              <div style={{ position: 'absolute', bottom: 2, left: 0, right: 0, display: 'flex', gap: 3, justifyContent: 'center', height: 6 }}>
                 {k?.light && <span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--accent-mid)' }} />}
                 {k?.heavy && <span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--accent)' }} />}
                 {k?.test && <span style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--warn)' }} />}
