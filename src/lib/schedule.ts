@@ -15,6 +15,12 @@ export function nextHeavy(level: Level, logs: Log[]): Routine {
   return level.routines.find((r) => r.kind === 'heavy' && r.slot === slot)!
 }
 
+export const swapDue = (r: Routine, logs: Log[], d: DateStr) => {
+  if (!r.insteadOfLight) return false
+  const last = logs.find((l) => l.routineId === r.id)
+  return !last || diffDays(d, last.date) >= r.insteadOfLight
+}
+
 export const levelWeek = (s: Settings, d: DateStr = today()) => Math.max(0, Math.floor(diffDays(d, s.levelStart) / 7)) + 1
 
 export const isDeload = (s: Settings, d: DateStr = today()) => levelWeek(s, d) % 4 === 0

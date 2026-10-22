@@ -8,6 +8,7 @@ export type Routine = {
   id: string
   kind: RoutineKind
   slot?: 'A' | 'B' | 'C'
+  insteadOfLight?: number
   title: string
   freq: string
   duration: string
@@ -665,6 +666,7 @@ export const levels: Level[] = [
       {
         id: 'l4-big5',
         kind: 'support',
+        insteadOfLight: 14,
         title: '«Большая пятёрка»',
         freq: 'раз в 2 недели вместо лёгкой',
         duration: '60 мин',

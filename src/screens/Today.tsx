@@ -5,7 +5,7 @@ import { InstallHint } from '../components/InstallHint'
 import { Sheet, Top } from '../components/ui'
 import { findLevel, type Routine } from '../data/program'
 import { dayLabel, diffDays, human, today } from '../lib/date'
-import { heavyInWeek, isDeload, lastMeasure, nextHeavy } from '../lib/schedule'
+import { heavyInWeek, isDeload, lastMeasure, nextHeavy, swapDue } from '../lib/schedule'
 import { useNav } from '../nav'
 import { addLog, useStore } from '../store'
 import { RoutineCard } from './Program'
@@ -18,9 +18,11 @@ export function TodayScreen() {
   const [pick, setPick] = useState(false)
   const level = findLevel(settings.currentLevel)!
   const light = level.routines.find((r) => r.kind === 'light')!
-  const support = level.routines.filter((r) => r.kind === 'support')
-  const heavies = level.routines.filter((r) => r.kind === 'heavy')
   const t = today()
+  const support = level.routines.filter((r) => r.kind === 'support')
+  const swap = support.find((r) => swapDue(r, logs, t))
+  const extras = support.filter((r) => r !== swap)
+  const heavies = level.routines.filter((r) => r.kind === 'heavy')
   const next = nextHeavy(level, logs)
   const rest = heavies.filter((r) => r.id !== next.id)
   const doneHeavy = heavies.filter((r) => logs.some((l) => l.routineId === r.id && l.date === t))
@@ -45,6 +47,7 @@ export function TodayScreen() {
       </div>
 
       <div className="section-title">Каждый день</div>
+      {swap && <RoutineCard r={swap} right={<CheckButton routine={swap} />} />}
       <RoutineCard r={light} right={<CheckButton routine={light} />} hideFreq />
 
       <div className="section-title">
@@ -58,10 +61,10 @@ export function TodayScreen() {
         </div>
       )}
 
-      {support.length > 0 && (
+      {extras.length > 0 && (
         <>
           <div className="section-title">Дополнительно</div>
-          {support.map((r) => <RoutineCard key={r.id} r={r} right={<CheckButton routine={r} />} />)}
+          {extras.map((r) => <RoutineCard key={r.id} r={r} right={<CheckButton routine={r} />} />)}
         </>
       )}
 
